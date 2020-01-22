@@ -1,9 +1,8 @@
 var app = require('http').createServer(handler),
 io = require('socket.io').listen(app),
-ws = require("websocket-server"),
 fs = require("fs"),
 url = require("url"),
-port = process.env.PORT || 5000,
+port = process.env.PORT || 5001,
 queue = {
 	'W' : [],
 	'B' : [],
