@@ -1,6 +1,10 @@
+"use strict";
+
 let oldElement = undefined;
+let selectable = [];
 
 function drawBoard() {
+    let id = 0;
     let table = document.createElement("table");
     for (let i = 0; i < 8; i++) {
         let tr = document.createElement('tr');
@@ -10,10 +14,14 @@ function drawBoard() {
                 td.className = "w";
                 td.setAttribute('data-x', i)
                 td.setAttribute('data-y', j)
+                td.setAttribute('id', id)
+                id++;
             } else {
                 td.className = "b";
                 td.setAttribute('data-x', i)
                 td.setAttribute('data-y', j)
+                td.setAttribute('id', id)
+                id++;
             }
             tr.appendChild(td);
         }
@@ -23,21 +31,23 @@ function drawBoard() {
 }
 function selector(x, y) {
     let select = document.querySelectorAll('td[data-x="' + x + '"]');
-    console.log(select);
+    //console.log(select);
     let find = false;
     let yInSel;
     let i = 0;
     while (find == false) {
         yInSel = select[i].getAttribute('data-y');
-        console.log(yInSel);
+        //console.log(yInSel);
         if (yInSel == y) {
             find = true
-            console.log('Found')
+            //console.log('Found')
         } else {
             i++;
         }
     }
-    return (select[i]);
+    let id = select[i].getAttribute('id')
+    let element = document.getElementById(id);
+    return (element);
 }
 // function test(x, y) {
 //     let abc = selector(x, y);
@@ -53,17 +63,21 @@ function prepareBoard() {
         let image = chessSquare.appendChild(document.createElement("img"))
         image.setAttribute("src", path);
         chessSquare.setAttribute("data-piece", element.name);
+        image.setAttribute("data-name", element.name);
+        chessSquare.setAttribute("data-color", "b");
     }
     for (let i = 0; i < whitePattern.length; i++) {
         let element = whitePattern[i];
         let path = element.path;
-        console.log(path);
+        //console.log(path);
         let y = element.y;
         let x = 7;
         let chessSquare = selector(x, y);
         let image = chessSquare.appendChild(document.createElement("img"))
         image.setAttribute("src", path);
         chessSquare.setAttribute("data-piece", element.name);
+        image.setAttribute("data-name", element.name);
+        chessSquare.setAttribute("data-color", "w");
     }
     let finished = false;
     while (finished == false) {
@@ -74,6 +88,8 @@ function prepareBoard() {
             let image = chessSquare.appendChild(document.createElement("img"))
             image.setAttribute("src", path);
             chessSquare.setAttribute("data-piece", blackPawn.name);
+            image.setAttribute("data-name", blackPawn.name);
+            chessSquare.setAttribute("data-color", "b");
         }
         x = 6
         for (let y = 0; y < 8; y++) {
@@ -82,6 +98,8 @@ function prepareBoard() {
             let image = chessSquare.appendChild(document.createElement("img"))
             image.setAttribute("src", path);
             chessSquare.setAttribute("data-piece", whitePawn.name);
+            image.setAttribute("data-name", whitePawn.name);
+            chessSquare.setAttribute("data-color", "w");
         }
         finished = true;
     }
@@ -91,7 +109,7 @@ function addListener() {
     let td = document.querySelectorAll('td');
     td.forEach(element => {
         element.onclick = selectPiece;
-        console.log("done");
+        //console.log("done");
     });
 }
 
@@ -105,23 +123,126 @@ function selectPiece(event) {
     }
 
     if (oldElement == undefined) {
-        source.classList.add("selected");
+        showTraj(source);
         oldElement = source;
-    } else if (source == oldElement) {
-        source.classList.remove("selected")
+    } else if (selectable.includes(source) == true) {
+        movePiece(oldElement, source);
         console.log("clicked twice")
-        oldElement = undefined;
     } else {
         oldElement.classList.remove("selected")
+        selectable.forEach(element => {
+            element.classList.remove("selected");
+        });
+        selectable = [];
         oldElement = undefined;
-        console.log("aborted click")
+        console.log("aborted click");
     }
 
 }
 
-function move(source) {
+function showTraj(source) {
     let x = source.getAttribute("data-x");
     let y = source.getAttribute("data-y");
+    let piece = source.getAttribute("data-piece");
     console.log("x : " + x + " y : " + y);
+    console.log(source.childNodes);
+    if (piece == "bPawn") {
+        x++;
+        selectable.push(selector(x, y));
+        if (source.getAttribute("data-x") == 1) {
+            x++;
+            selectable.push(selector(x, y));
+            x--;
+        }
+        x--;
+        let eatable = neighbours(x, y);
+        if (eatable.includes(6) == true) {
+            let x2 = x;
+            let y2 = y;
+            x2++
+            y2--
+            selectable.push(selector(x2, y2));
+        }
+        if (eatable.includes(8) == true) {
+            let x2 = x;
+            let y2 = y;
+            x2++
+            y2++
+            selectable.push(selector(x2, y2));
+        }
+        if (eatable.includes(7) == true) {
+            selectable.splice(0, 1);
+        }
+    }
+    if (piece == "wPawn") {
+        x--;
+        selectable.push(selector(x, y));
+        if (source.getAttribute("data-x") == 6) {
+            x--;
+            selectable.push(selector(x, y));
+        }
+    }
+    selectable.forEach(element => {
+        element.classList.add("selected");
+    });
+}
 
+function movePiece(source, dest) {
+    console.log("item has to be moved from : " + source + " to : " + dest)
+    selectable.forEach(element => {
+        element.classList.remove("selected");
+    });
+    console.log(source.childNodes);
+    if (dest.hasChildNodes() == true) {
+        dest.removeChild(dest.firstChild);
+    }
+    let img = source.firstChild;
+    let name = img.getAttribute("data-name");
+    source.removeChild(source.firstChild);
+    source.removeAttribute("data-piece");
+    dest.appendChild(img);
+    dest.setAttribute("data-piece", name);
+    selectable = [];
+    oldElement = undefined;
+}
+
+function neighbours(x, y) {
+    /*
+    -x-y | -x | -x+y    1|2|3
+    -y   | xy | +y      4| |5
+    +x-y | +x | +x+y    6|7|8
+    */
+    let collisions = [];
+    x--;
+    y--;
+    if (selector(x, y).hasChildNodes() == true) {
+        let obj = {}
+        obj['collision'] = 1;
+        collisions.push(1)
+        obj['color'] = selector(x, y).getAttribute("color");
+        console.log(obj);
+    } //-x-y
+
+    y++;
+    console.log("x : " + x + " y : " + y)
+    if (selector(x, y).hasChildNodes() == true) { collisions.push(2) } //-x
+    y++;
+    console.log("x : " + x + " y : " + y)
+    if (selector(x, y).hasChildNodes() == true) { collisions.push(3) } //-x+y
+    x++;
+    console.log("x : " + x + " y : " + y)
+    if (selector(x, y).hasChildNodes() == true) { collisions.push(5) } //+y
+    x++;
+    console.log("x : " + x + " y : " + y)
+    if (selector(x, y).hasChildNodes() == true) { collisions.push(8) } //+x+y
+    y--;
+    console.log("x : " + x + " y : " + y)
+    if (selector(x, y).hasChildNodes() == true) { collisions.push(7) } //+x
+    y--;
+    console.log("x : " + x + " y : " + y)
+    if (selector(x, y).hasChildNodes() == true) { collisions.push(6) } //+x-y
+    x--;
+    console.log("x : " + x + " y : " + y)
+    if (selector(x, y).hasChildNodes() == true) { collisions.push(4) } //-y
+    return (collisions);
 }
