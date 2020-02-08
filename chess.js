@@ -140,6 +140,7 @@ function showTraj(source) { // calcule les trajectoires
   const piece = source.getAttribute('data-piece')
   console.log('x : ' + x + ' y : ' + y)
   console.log(source.childNodes)
+  const eatable = neighbours(x, y)
   switch (piece) {
     case 'bPawn':
       x++
@@ -150,7 +151,6 @@ function showTraj(source) { // calcule les trajectoires
         x--
       }
       x--
-      const eatable = neighbours(x, y)
       if (findKey(eatable, 6) == true) {
         let x2 = x
         let y2 = y
@@ -179,7 +179,6 @@ function showTraj(source) { // calcule les trajectoires
         x++
       }
       x++
-      const eatable = neighbours(x, y)
       if (findKey(eatable, 1) == true) {
         let x2 = x
         let y2 = y
