@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 let oldElement
 let selectable = []
+let turn = 1;
 
 function drawBoard() { //  On dessine le plateau
   let id = 0
@@ -110,18 +111,31 @@ function addListener() { // On ajoute les listner qui permettent de réagir au c
 }
 
 function selectPiece(event) { // On piece select
-  var source = event.target || event.srcElement
+  let source = event.target || event.srcElement
   console.log(source)
   console.log(source.tagName)
   if (source.tagName !== 'TD') {
     source = source.parentElement
   }
-
+  let color = source.getAttribute('data-color')
   if (oldElement == undefined) {
-    showTraj(source)
-    oldElement = source
+    if (turn == 1 && color == 'w') {
+      showTraj(source)
+      oldElement = source
+    }
+    if (turn == 0 && color == 'b') {
+      showTraj(source)
+      oldElement = source
+    }
   } else if (selectable.includes(source) == true) {
     movePiece(oldElement, source)
+    if (turn == 1) {
+      console.log(turn)
+      turn = 0
+    }
+    else if (turn == 0) {
+      turn = 1
+    }
     console.log('clicked twice')
   } else {
     oldElement.classList.remove('selected')
@@ -217,10 +231,12 @@ function movePiece(source, dest) { // déplace une pièce
   }
   const img = source.firstChild
   const name = img.getAttribute('data-name')
+  const color = source.getAttribute('data-color')
   source.removeChild(source.firstChild)
   source.removeAttribute('data-piece')
   dest.appendChild(img)
   dest.setAttribute('data-piece', name)
+  dest.setAttribute('data-color', color)
   selectable = []
   oldElement = undefined
 }

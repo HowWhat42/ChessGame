@@ -45,7 +45,6 @@ const whitePattern = [
         "path": "img/W_rook.png",
         "y": "0",
         "name": "wRook"
-
     },
     {
         "path": "img/W_knight.png",
