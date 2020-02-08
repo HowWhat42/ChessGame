@@ -2,7 +2,7 @@
 let oldElement
 let selectable = []
 
-function drawBoard () { //  On dessine le plateau
+function drawBoard() { //  On dessine le plateau
   let id = 0
   const table = document.createElement('table')
   for (let i = 0; i < 8; i++) {
@@ -28,7 +28,7 @@ function drawBoard () { //  On dessine le plateau
   }
   document.body.appendChild(table)
 }
-function selector (x, y) {
+function selector(x, y) {
   const select = document.querySelectorAll('td[data-x="' + x + '"]')
   // console.log(select);
   let find = false
@@ -49,7 +49,7 @@ function selector (x, y) {
   return element
 }
 
-function prepareBoard () { // Ajouter les pions au plateau
+function prepareBoard() { // Ajouter les pions au plateau
   for (let i = 0; i < blackPattern.length; i++) {
     const element = blackPattern[i]
     const path = element.path
@@ -101,7 +101,7 @@ function prepareBoard () { // Ajouter les pions au plateau
   }
 }
 
-function addListener () { // On ajoute les listner qui permettent de réagir au click
+function addListener() { // On ajoute les listner qui permettent de réagir au click
   const td = document.querySelectorAll('td')
   td.forEach(element => {
     element.onclick = selectPiece
@@ -109,7 +109,7 @@ function addListener () { // On ajoute les listner qui permettent de réagir au 
   })
 }
 
-function selectPiece (event) { // On piece select
+function selectPiece(event) { // On piece select
   var source = event.target || event.srcElement
   console.log(source)
   console.log(source.tagName)
@@ -134,74 +134,80 @@ function selectPiece (event) { // On piece select
   }
 }
 
-function showTraj (source) { // calcule les trajectoires
+function showTraj(source) { // calcule les trajectoires
   let x = source.getAttribute('data-x')
-  const y = source.getAttribute('data-y')
+  let y = source.getAttribute('data-y')
   const piece = source.getAttribute('data-piece')
   console.log('x : ' + x + ' y : ' + y)
   console.log(source.childNodes)
-  if (piece == 'bPawn') {
-    x++
-    selectable.push(selector(x, y))
-    if (source.getAttribute('data-x') == 1) {
+  switch (piece) {
+    case 'bPawn':
       x++
       selectable.push(selector(x, y))
+      if (source.getAttribute('data-x') == 1) {
+        x++
+        selectable.push(selector(x, y))
+        x--
+      }
       x--
-    }
-    x--
-    const eatable = neighbours(x, y)
-    if (findKey(eatable, 6) == true) {
-      let x2 = x
-      let y2 = y
-      x2++
-      y2--
-      selectable.push(selector(x2, y2))
-    }
-    if (findKey(eatable, 8) == true) {
-      let x2 = x
-      let y2 = y
-      x2++
-      y2++
-      selectable.push(selector(x2, y2))
-    }
-    if (findKey(eatable, 7) == true) {
-      selectable.splice(0, 1)
-    }
-  }
-  if (piece == 'wPawn') {
-    x--
-    selectable.push(selector(x, y))
-    if (source.getAttribute('data-x') == 6) {
+      const eatable = neighbours(x, y)
+      if (findKey(eatable, 6) == true) {
+        let x2 = x
+        let y2 = y
+        x2++
+        y2--
+        selectable.push(selector(x2, y2))
+      }
+      if (findKey(eatable, 8) == true) {
+        let x2 = x
+        let y2 = y
+        x2++
+        y2++
+        selectable.push(selector(x2, y2))
+      }
+      if (findKey(eatable, 7) == true) {
+        selectable.splice(0, 1)
+      }
+      break;
+
+    case 'wPawn':
       x--
       selectable.push(selector(x, y))
+      if (source.getAttribute('data-x') == 6) {
+        x--
+        selectable.push(selector(x, y))
+        x++
+      }
       x++
-    }
-    x++
-    const eatable = neighbours(x, y)
-    if (findKey(eatable, 1) == true) {
-      let x2 = x
-      let y2 = y
-      x2--
-      y2--
-      selectable.push(selector(x2, y2))
-    }
-    if (findKey(eatable, 3) == true) {
-      let x2 = x
-      let y2 = y
-      x2--
-      y2++
-      selectable.push(selector(x2, y2))
-    }
-    if (findKey(eatable, 2) == true) {
-      selectable.splice(0, 1)
-    }
+      const eatable = neighbours(x, y)
+      if (findKey(eatable, 1) == true) {
+        let x2 = x
+        let y2 = y
+        x2--
+        y2--
+        selectable.push(selector(x2, y2))
+      }
+      if (findKey(eatable, 3) == true) {
+        let x2 = x
+        let y2 = y
+        x2--
+        y2++
+        selectable.push(selector(x2, y2))
+      }
+      if (findKey(eatable, 2) == true) {
+        selectable.splice(0, 1)
+      }
+      break;
+
+    default:
+      break;
   }
   selectable.forEach(element => {
     element.classList.add('selected')
   })
 }
 
-function movePiece (source, dest) { // déplace une pièce
+function movePiece(source, dest) { // déplace une pièce
   console.log('item has to be moved from : ' + source + ' to : ' + dest)
   selectable.forEach(element => {
     element.classList.remove('selected')
@@ -220,7 +226,7 @@ function movePiece (source, dest) { // déplace une pièce
   oldElement = undefined
 }
 
-function neighbours (x, y, color) { // detection des collisions
+function neighbours(x, y, color) { // detection des collisions
   /*
     -x-y | -x | -x+y    1|2|3
     -y   | xy | +y      4| |5
