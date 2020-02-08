@@ -1,9 +1,9 @@
 /* eslint-disable eqeqeq */
 let oldElement
 let selectable = []
-let turn = 1;
+let turn = 1// Set turn to white
 
-function drawBoard() { //  On dessine le plateau
+function drawBoard() { // Draw board on the webpage
   let id = 0
   const table = document.createElement('table')
   for (let i = 0; i < 8; i++) {
@@ -29,18 +29,16 @@ function drawBoard() { //  On dessine le plateau
   }
   document.body.appendChild(table)
 }
+
 function selector(x, y) {
   const select = document.querySelectorAll('td[data-x="' + x + '"]')
-  // console.log(select);
   let find = false
   let yInSel
   let i = 0
   while (find == false) {
     yInSel = select[i].getAttribute('data-y')
-    // console.log(yInSel);
     if (yInSel == y) {
       find = true
-      // console.log('Found')
     } else {
       i++
     }
@@ -50,7 +48,7 @@ function selector(x, y) {
   return element
 }
 
-function prepareBoard() { // Ajouter les pions au plateau
+function prepareBoard() { // Add pieces on the board
   for (let i = 0; i < blackPattern.length; i++) {
     const element = blackPattern[i]
     const path = element.path
@@ -66,7 +64,6 @@ function prepareBoard() { // Ajouter les pions au plateau
   for (let i = 0; i < whitePattern.length; i++) {
     const element = whitePattern[i]
     const path = element.path
-    // console.log(path);
     const y = element.y
     const x = 7
     const chessSquare = selector(x, y)
@@ -102,11 +99,10 @@ function prepareBoard() { // Ajouter les pions au plateau
   }
 }
 
-function addListener() { // On ajoute les listner qui permettent de réagir au click
+function addListener() { // Add listener to react on click
   const td = document.querySelectorAll('td')
   td.forEach(element => {
     element.onclick = selectPiece
-    // console.log("done");
   })
 }
 
@@ -114,30 +110,30 @@ function selectPiece(event) { // On piece select
   let source = event.target || event.srcElement
   console.log(source)
   console.log(source.tagName)
-  if (source.tagName !== 'TD') {
+  if (source.tagName !== 'TD') {// Check if piece is clicked
     source = source.parentElement
   }
+
   let color = source.getAttribute('data-color')
-  if (oldElement == undefined) {
-    if (turn == 1 && color == 'w') {
+  if (oldElement == undefined) {// Check if nothing is selected
+    if (turn == 1 && color == 'w') {// Check if white is clicked and turn is white
       showTraj(source)
       oldElement = source
     }
-    if (turn == 0 && color == 'b') {
+    if (turn == 0 && color == 'b') {// Check if black is clicked and turn is black
       showTraj(source)
       oldElement = source
     }
-  } else if (selectable.includes(source) == true) {
+  } else if (selectable.includes(source) == true) {// Move piece
     movePiece(oldElement, source)
-    if (turn == 1) {
-      console.log(turn)
+    if (turn == 1) {// Change turn to black
       turn = 0
     }
-    else if (turn == 0) {
+    else if (turn == 0) {// Change turn to white
       turn = 1
     }
     console.log('clicked twice')
-  } else {
+  } else {// Abort click
     oldElement.classList.remove('selected')
     selectable.forEach(element => {
       element.classList.remove('selected')
@@ -148,7 +144,7 @@ function selectPiece(event) { // On piece select
   }
 }
 
-function showTraj(source) { // calcule les trajectoires
+function showTraj(source) { // Calculate and display traj
   let x = source.getAttribute('data-x')
   let y = source.getAttribute('data-y')
   const piece = source.getAttribute('data-piece')
@@ -212,6 +208,36 @@ function showTraj(source) { // calcule les trajectoires
       }
       break;
 
+    case 'bRook':
+      break;
+
+    case 'wRook':
+      break;
+
+    case 'bKnight':
+      break;
+
+    case 'wKnight':
+      break;
+
+    case 'bBishop':
+      break;
+
+    case 'wBishop':
+      break;
+
+    case 'bQueen':
+      break;
+
+    case 'wQueen':
+      break;
+
+    case 'bKing':
+      break;
+
+    case 'wKing':
+      break;
+
     default:
       break;
   }
@@ -220,7 +246,7 @@ function showTraj(source) { // calcule les trajectoires
   })
 }
 
-function movePiece(source, dest) { // déplace une pièce
+function movePiece(source, dest) { // Move piece
   console.log('item has to be moved from : ' + source + ' to : ' + dest)
   selectable.forEach(element => {
     element.classList.remove('selected')
@@ -229,11 +255,14 @@ function movePiece(source, dest) { // déplace une pièce
   if (dest.hasChildNodes() == true) {
     dest.removeChild(dest.firstChild)
   }
+  //Get all the piece attributes
   const img = source.firstChild
   const name = img.getAttribute('data-name')
   const color = source.getAttribute('data-color')
+  //Delete the piece
   source.removeChild(source.firstChild)
   source.removeAttribute('data-piece')
+  //Display the piece at it's new pos
   dest.appendChild(img)
   dest.setAttribute('data-piece', name)
   dest.setAttribute('data-color', color)
@@ -241,7 +270,7 @@ function movePiece(source, dest) { // déplace une pièce
   oldElement = undefined
 }
 
-function neighbours(x, y, color) { // detection des collisions
+function neighbours(x, y, color) { // Detect collisions
   /*
     -x-y | -x | -x+y    1|2|3
     -y   | xy | +y      4| |5
