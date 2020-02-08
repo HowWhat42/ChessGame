@@ -3,7 +3,7 @@ let oldElement
 let selectable = []
 let turn = 1// Set turn to white
 
-function drawBoard() { // Draw board on the webpage
+function drawBoard () { // Draw board on the webpage
   let id = 0
   const table = document.createElement('table')
   for (let i = 0; i < 8; i++) {
@@ -30,7 +30,7 @@ function drawBoard() { // Draw board on the webpage
   document.body.appendChild(table)
 }
 
-function selector(x, y) {
+function selector (x, y) {
   const select = document.querySelectorAll('td[data-x="' + x + '"]')
   let find = false
   let yInSel
@@ -48,7 +48,7 @@ function selector(x, y) {
   return element
 }
 
-function prepareBoard() { // Add pieces on the board
+function prepareBoard () { // Add pieces on the board
   for (let i = 0; i < blackPattern.length; i++) {
     const element = blackPattern[i]
     const path = element.path
@@ -99,41 +99,40 @@ function prepareBoard() { // Add pieces on the board
   }
 }
 
-function addListener() { // Add listener to react on click
+function addListener () { // Add listener to react on click
   const td = document.querySelectorAll('td')
   td.forEach(element => {
     element.onclick = selectPiece
   })
 }
 
-function selectPiece(event) { // On piece select
+function selectPiece (event) { // On piece select
   let source = event.target || event.srcElement
   console.log(source)
   console.log(source.tagName)
-  if (source.tagName !== 'TD') {// Check if piece is clicked
+  if (source.tagName !== 'TD') { // Check if piece is clicked
     source = source.parentElement
   }
 
-  let color = source.getAttribute('data-color')
-  if (oldElement == undefined) {// Check if nothing is selected
-    if (turn == 1 && color == 'w') {// Check if white is clicked and turn is white
+  const color = source.getAttribute('data-color')
+  if (oldElement == undefined) { // Check if nothing is selected
+    if (turn == 1 && color == 'w') { // Check if white is clicked and turn is white
       showTraj(source)
       oldElement = source
     }
-    if (turn == 0 && color == 'b') {// Check if black is clicked and turn is black
+    if (turn == 0 && color == 'b') { // Check if black is clicked and turn is black
       showTraj(source)
       oldElement = source
     }
-  } else if (selectable.includes(source) == true) {// Move piece
+  } else if (selectable.includes(source) == true) { // Move piece
     movePiece(oldElement, source)
-    if (turn == 1) {// Change turn to black
+    if (turn == 1) { // Change turn to black
       turn = 0
-    }
-    else if (turn == 0) {// Change turn to white
+    } else if (turn == 0) { // Change turn to white
       turn = 1
     }
     console.log('clicked twice')
-  } else {// Abort click
+  } else { // Abort click
     oldElement.classList.remove('selected')
     selectable.forEach(element => {
       element.classList.remove('selected')
@@ -144,9 +143,9 @@ function selectPiece(event) { // On piece select
   }
 }
 
-function showTraj(source) { // Calculate and display traj
+function showTraj (source) { // Calculate and display traj
   let x = source.getAttribute('data-x')
-  let y = source.getAttribute('data-y')
+  const y = source.getAttribute('data-y')
   const piece = source.getAttribute('data-piece')
   console.log('x : ' + x + ' y : ' + y)
   console.log(source.childNodes)
@@ -178,7 +177,7 @@ function showTraj(source) { // Calculate and display traj
       if (findKey(eatable, 7) == true) {
         selectable.splice(0, 1)
       }
-      break;
+      break
 
     case 'wPawn':
       x--
@@ -206,47 +205,47 @@ function showTraj(source) { // Calculate and display traj
       if (findKey(eatable, 2) == true) {
         selectable.splice(0, 1)
       }
-      break;
+      break
 
     case 'bRook':
-      break;
+      break
 
     case 'wRook':
-      break;
+      break
 
     case 'bKnight':
-      break;
+      break
 
     case 'wKnight':
-      break;
+      break
 
     case 'bBishop':
-      break;
+      break
 
     case 'wBishop':
-      break;
+      break
 
     case 'bQueen':
-      break;
+      break
 
     case 'wQueen':
-      break;
+      break
 
     case 'bKing':
-      break;
+      break
 
     case 'wKing':
-      break;
+      break
 
     default:
-      break;
+      break
   }
   selectable.forEach(element => {
     element.classList.add('selected')
   })
 }
 
-function movePiece(source, dest) { // Move piece
+function movePiece (source, dest) { // Move piece
   console.log('item has to be moved from : ' + source + ' to : ' + dest)
   selectable.forEach(element => {
     element.classList.remove('selected')
@@ -255,14 +254,14 @@ function movePiece(source, dest) { // Move piece
   if (dest.hasChildNodes() == true) {
     dest.removeChild(dest.firstChild)
   }
-  //Get all the piece attributes
+  // Get all the piece attributes
   const img = source.firstChild
   const name = img.getAttribute('data-name')
   const color = source.getAttribute('data-color')
-  //Delete the piece
+  // Delete the piece
   source.removeChild(source.firstChild)
   source.removeAttribute('data-piece')
-  //Display the piece at it's new pos
+  // Display the piece at it's new pos
   dest.appendChild(img)
   dest.setAttribute('data-piece', name)
   dest.setAttribute('data-color', color)
@@ -270,7 +269,7 @@ function movePiece(source, dest) { // Move piece
   oldElement = undefined
 }
 
-function neighbours(x, y, color) { // Detect collisions
+function neighbours (x, y, color) { // Detect collisions
   /*
     -x-y | -x | -x+y    1|2|3
     -y   | xy | +y      4| |5
