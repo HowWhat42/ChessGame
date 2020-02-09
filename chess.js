@@ -286,6 +286,62 @@ function showPath(source) { // Calculate and display path
       break;
 
     case 'King':
+      try {//Front
+        let x2 = x - 1
+        let y2 = y
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Front left
+        let x2 = x - 1
+        let y2 = y - 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Left
+        let x2 = x
+        let y2 = y - 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Back left
+        let x2 = x + 1
+        let y2 = y - 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Back
+        let x2 = x + 1
+        let y2 = y
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Back right
+        let x2 = x + 1
+        let y2 = y + 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Right
+        let x2 = x
+        let y2 = y + 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Front right
+        let x2 = x - 1
+        let y2 = y + 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
       break;
 
     default:
