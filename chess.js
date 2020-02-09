@@ -289,7 +289,9 @@ function neighbours(x, y, color) { // Detect collisions
         const obj = {}
         obj.collision = 8
         obj.color = selector(x, y).getAttribute('data-color')
-        collisions.push(obj)
+        if (obj.color != color) {
+          collisions.push(obj)
+        }
       } // +x+y
     } catch (error) {
       console.error(error)
@@ -301,7 +303,9 @@ function neighbours(x, y, color) { // Detect collisions
         const obj = {}
         obj.collision = 7
         obj.color = selector(x, y).getAttribute('data-color')
-        collisions.push(obj)
+        if (obj.color != color) {
+          collisions.push(obj)
+        }
       } // +x
     } catch (error) {
       console.error(error)
@@ -314,7 +318,9 @@ function neighbours(x, y, color) { // Detect collisions
         const obj = {}
         obj.collision = 6
         obj.color = selector(x, y).getAttribute('data-color')
-        collisions.push(obj)
+        if (obj.color != color) {
+          collisions.push(obj)
+        }
       } // +x-y
     } catch (error) {
       console.error(error)
@@ -329,7 +335,9 @@ function neighbours(x, y, color) { // Detect collisions
         const obj = {}
         obj.collision = 1
         obj.color = selector(x, y).getAttribute('data-color')
-        collisions.push(obj)
+        if (obj.color != color) {
+          collisions.push(obj)
+        }
       } // +x+y
     } catch (error) {
       console.error(error)
@@ -341,7 +349,9 @@ function neighbours(x, y, color) { // Detect collisions
         const obj = {}
         obj.collision = 2
         obj.color = selector(x, y).getAttribute('data-color')
-        collisions.push(obj)
+        if (obj.color != color) {
+          collisions.push(obj)
+        }
       } // +x
     } catch (error) {
       console.error(error)
@@ -354,7 +364,9 @@ function neighbours(x, y, color) { // Detect collisions
         const obj = {}
         obj.collision = 3
         obj.color = selector(x, y).getAttribute('data-color')
-        collisions.push(obj)
+        if (obj.color != color) {
+          collisions.push(obj)
+        }
       } // +x-y
     } catch (error) {
       console.error(error)
