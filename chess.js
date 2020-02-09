@@ -84,6 +84,7 @@ function prepareBoard() { // Add pieces on the board
       chessSquare.setAttribute('data-piece', blackPawn.name)
       image.setAttribute('data-name', blackPawn.name)
       chessSquare.setAttribute('data-color', 'b')
+      image.setAttribute('data-color', 'b')
     }
     x = 6
     for (let y = 0; y < 8; y++) {
@@ -94,6 +95,7 @@ function prepareBoard() { // Add pieces on the board
       chessSquare.setAttribute('data-piece', whitePawn.name)
       image.setAttribute('data-name', whitePawn.name)
       chessSquare.setAttribute('data-color', 'w')
+      image.setAttribute('data-color', 'w')
     }
     finished = true
   }
@@ -117,11 +119,11 @@ function selectPiece(event) { // On piece select
   let color = source.getAttribute('data-color')
   if (oldElement == undefined) {// Check if nothing is selected
     if (turn == 1 && color == 'w') {// Check if white is clicked and turn is white
-      showTraj(source)
+      showPath(source)
       oldElement = source
     }
     if (turn == 0 && color == 'b') {// Check if black is clicked and turn is black
-      showTraj(source)
+      showPath(source)
       oldElement = source
     }
   } else if (selectable.includes(source) == true) {// Move piece
@@ -144,16 +146,17 @@ function selectPiece(event) { // On piece select
   }
 }
 
-function showTraj(source) { // Calculate and display traj
-  let x = source.getAttribute('data-x')
-  let y = source.getAttribute('data-y')
+function showPath(source) { // Calculate and display path
+  let x = parseInt(source.getAttribute('data-x'))
+  let y = parseInt(source.getAttribute('data-y'))
   const piece = source.getAttribute('data-piece')
   const color = source.getAttribute('data-color')
   console.log('x : ' + x + ' y : ' + y)
   console.log(source.childNodes)
-  const eatable = neighbours(x, y, color)
+  let eatable = []
   switch (piece) {
     case 'bPawn':
+      eatable = neighbours(x, y, color)
       x++
       selectable.push(selector(x, y))
       if (source.getAttribute('data-x') == 1) {
@@ -182,6 +185,7 @@ function showTraj(source) { // Calculate and display traj
       break;
 
     case 'wPawn':
+      eatable = neighbours(x, y, color)
       x--
       selectable.push(selector(x, y))
       if (source.getAttribute('data-x') == 6) {
@@ -209,34 +213,79 @@ function showTraj(source) { // Calculate and display traj
       }
       break;
 
-    case 'bRook':
+    case 'Rook':
       break;
 
-    case 'wRook':
+
+    case 'Knight':
+      //Front
+      try {// Front left
+        let x2 = x - 2
+        let y2 = y - 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Front right
+        x2 = x - 2
+        y2 = y + 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      //Left
+      try {//Left top
+        x2 = x - 1
+        y2 = y - 2
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Left bottom
+        x2 = x + 1
+        y2 = y - 2
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      //Back
+      try {//Back left
+        x2 = x + 2
+        y2 = y - 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      try {//Back right
+        x2 = x + 2
+        y2 = y + 1
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
+      //Right
+      try {//Right bottom
+        x2 = x + 1
+        y2 = y + 2
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      } try {//Right top
+        x2 = x - 1
+        y2 = y + 2
+        selectable.push(selector(x2, y2))
+      } catch (error) {
+        console.error(error)
+      }
       break;
 
-    case 'bKnight':
+    case 'Bishop':
       break;
 
-    case 'wKnight':
+    case 'Queen':
       break;
 
-    case 'bBishop':
-      break;
-
-    case 'wBishop':
-      break;
-
-    case 'bQueen':
-      break;
-
-    case 'wQueen':
-      break;
-
-    case 'bKing':
-      break;
-
-    case 'wKing':
+    case 'King':
       break;
 
     default:

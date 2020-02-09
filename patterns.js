@@ -2,84 +2,84 @@ const blackPattern = [
     {
         "path": "img/B_rook.png",
         "y": "0",
-        "name": "bRook"
+        "name": "Rook"
     },
     {
         "path": "img/B_knight.png",
         "y": "1",
-        "name": "bKnight"
+        "name": "Knight"
     },
     {
         "path": "img/B_bishop.png",
         "y": "2",
-        "name": "bBishop"
+        "name": "Bishop"
     },
     {
         "path": "img/B_queen.png",
         "y": "3",
-        "name": "bQueen"
+        "name": "Queen"
     },
     {
         "path": "img/B_king.png",
         "y": "4",
-        "name": "bKing"
+        "name": "King"
     },
     {
         "path": "img/B_bishop.png",
         "y": "5",
-        "name": "bBishop"
+        "name": "Bishop"
     },
     {
         "path": "img/B_knight.png",
         "y": "6",
-        "name": "bKnight"
+        "name": "Knight"
     },
     {
         "path": "img/B_rook.png",
         "y": "7",
-        "name": "bRook"
+        "name": "Rook"
     }
 ]
 const whitePattern = [
     {
         "path": "img/W_rook.png",
         "y": "0",
-        "name": "wRook"
+        "name": "Rook"
     },
     {
         "path": "img/W_knight.png",
         "y": "1",
-        "name": "wKnight"
+        "name": "Knight"
     },
     {
         "path": "img/W_bishop.png",
         "y": "2",
-        "name": "wBishop"
+        "name": "Bishop"
     },
     {
         "path": "img/W_queen.png",
         "y": "3",
-        "name": "wQueen"
+        "name": "Queen"
     },
     {
         "path": "img/W_king.png",
         "y": "4",
-        "name": "wKing"
+        "name": "King"
     },
     {
         "path": "img/W_bishop.png",
         "y": "5",
-        "name": "wBishop"
+        "name": "Bishop"
     },
     {
         "path": "img/W_knight.png",
         "y": "6",
-        "name": "wKnight"
+        "name": "Knight"
     },
     {
         "path": "img/W_rook.png",
         "y": "7",
-        "name": "wRook"
+        "name": "Rook"
     }
 ]
 whitePawn = {
