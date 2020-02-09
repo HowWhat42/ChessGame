@@ -154,6 +154,8 @@ function showPath(source) { // Calculate and display path
   console.log('x : ' + x + ' y : ' + y)
   console.log(source.childNodes)
   let eatable = []
+  let x2
+  let y2
   switch (piece) {
     case 'bPawn':
       eatable = neighbours(x, y, color)
@@ -166,15 +168,15 @@ function showPath(source) { // Calculate and display path
       }
       x--
       if (findKey(eatable, 6) == true) {
-        let x2 = x
-        let y2 = y
+        x2 = x
+        y2 = y
         x2++
         y2--
         selectable.push(selector(x2, y2))
       }
       if (findKey(eatable, 8) == true) {
-        let x2 = x
-        let y2 = y
+        x2 = x
+        y2 = y
         x2++
         y2++
         selectable.push(selector(x2, y2))
@@ -195,15 +197,15 @@ function showPath(source) { // Calculate and display path
       }
       x++
       if (findKey(eatable, 1) == true) {
-        let x2 = x
-        let y2 = y
+        x2 = x
+        y2 = y
         x2--
         y2--
         selectable.push(selector(x2, y2))
       }
       if (findKey(eatable, 3) == true) {
-        let x2 = x
-        let y2 = y
+        x2 = x
+        y2 = y
         x2--
         y2++
         selectable.push(selector(x2, y2))
@@ -220,8 +222,8 @@ function showPath(source) { // Calculate and display path
     case 'Knight':
       //Front
       try {// Front left
-        let x2 = x - 2
-        let y2 = y - 1
+        x2 = x - 2
+        y2 = y - 1
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
@@ -280,6 +282,39 @@ function showPath(source) { // Calculate and display path
       break;
 
     case 'Bishop':
+      for (let index = 1; index < 8; index++) {
+        try {
+          x2 = x + index
+          y2 = y + index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {
+          x2 = x - index
+          y2 = y + index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {
+          x2 = x - index
+          y2 = y - index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {
+          x2 = x + index
+          y2 = y - index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+      }
       break;
 
     case 'Queen':
@@ -287,57 +322,57 @@ function showPath(source) { // Calculate and display path
 
     case 'King':
       try {//Front
-        let x2 = x - 1
-        let y2 = y
+        x2 = x - 1
+        y2 = y
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
       }
       try {//Front left
-        let x2 = x - 1
-        let y2 = y - 1
+        x2 = x - 1
+        y2 = y - 1
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
       }
       try {//Left
-        let x2 = x
-        let y2 = y - 1
+        x2 = x
+        y2 = y - 1
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
       }
       try {//Back left
-        let x2 = x + 1
-        let y2 = y - 1
+        x2 = x + 1
+        y2 = y - 1
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
       }
       try {//Back
-        let x2 = x + 1
-        let y2 = y
+        x2 = x + 1
+        y2 = y
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
       }
       try {//Back right
-        let x2 = x + 1
-        let y2 = y + 1
+        x2 = x + 1
+        y2 = y + 1
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
       }
       try {//Right
-        let x2 = x
-        let y2 = y + 1
+        x2 = x
+        y2 = y + 1
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
       }
       try {//Front right
-        let x2 = x - 1
-        let y2 = y + 1
+        x2 = x - 1
+        y2 = y + 1
         selectable.push(selector(x2, y2))
       } catch (error) {
         console.error(error)
