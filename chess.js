@@ -351,6 +351,73 @@ function showPath(source) { // Calculate and display path
       break;
 
     case 'Queen':
+      for (let index = 1; index < 8; index++) {
+        //Rook path
+        try {//Back
+          x2 = x + index
+          y2 = y
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {//Front
+          x2 = x - index
+          y2 = y
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {//Left
+          x2 = x
+          y2 = y - index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {//Right
+          x2 = x
+          y2 = y + index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        //Bishop path
+        try {//Bottom right
+          x2 = x + index
+          y2 = y + index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {//Top right
+          x2 = x - index
+          y2 = y + index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {//Top left
+          x2 = x - index
+          y2 = y - index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+
+        try {//Bottom left
+          x2 = x + index
+          y2 = y - index
+          selectable.push(selector(x2, y2))
+        } catch (error) {
+          console.error(error)
+        }
+      }
       break;
 
     case 'King':
