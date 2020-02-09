@@ -148,9 +148,10 @@ function showTraj(source) { // Calculate and display traj
   let x = source.getAttribute('data-x')
   let y = source.getAttribute('data-y')
   const piece = source.getAttribute('data-piece')
+  const color = source.getAttribute('data-color')
   console.log('x : ' + x + ' y : ' + y)
   console.log(source.childNodes)
-  const eatable = neighbours(x, y)
+  const eatable = neighbours(x, y, color)
   switch (piece) {
     case 'bPawn':
       x++
@@ -283,7 +284,7 @@ function neighbours(x, y, color) { // Detect collisions
     x++
     y++
 
-    try {
+    try {// Get the piece on the right
       if (selector(x, y).hasChildNodes() == true) {
         const obj = {}
         obj.collision = 8
@@ -295,7 +296,7 @@ function neighbours(x, y, color) { // Detect collisions
     }
 
     y--
-    try {
+    try {// Get the piece on the middle
       if (selector(x, y).hasChildNodes() == true) {
         const obj = {}
         obj.collision = 7
@@ -308,7 +309,7 @@ function neighbours(x, y, color) { // Detect collisions
 
     y--
 
-    try {
+    try {// Get the piece on the left
       if (selector(x, y).hasChildNodes() == true) {
         const obj = {}
         obj.collision = 6
@@ -323,7 +324,7 @@ function neighbours(x, y, color) { // Detect collisions
     x--
     y--
 
-    try {
+    try {// Get the piece on the left
       if (selector(x, y).hasChildNodes() == true) {
         const obj = {}
         obj.collision = 1
@@ -335,7 +336,7 @@ function neighbours(x, y, color) { // Detect collisions
     }
 
     y++
-    try {
+    try {// Get the piece on the middle
       if (selector(x, y).hasChildNodes() == true) {
         const obj = {}
         obj.collision = 2
@@ -348,7 +349,7 @@ function neighbours(x, y, color) { // Detect collisions
 
     y++
 
-    try {
+    try {// Get the piece on the right
       if (selector(x, y).hasChildNodes() == true) {
         const obj = {}
         obj.collision = 3
