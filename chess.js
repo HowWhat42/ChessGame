@@ -30,7 +30,7 @@ function drawBoard() { // Draw board on the webpage
   document.body.appendChild(table)
 }
 
-function selector(x, y) {
+function selector(x, y) {//EL SAINT GRAAL
   const select = document.querySelectorAll('td[data-x="' + x + '"]')
   let find = false
   let yInSel
@@ -46,7 +46,7 @@ function selector(x, y) {
   const id = select[i].getAttribute('id')
   const element = document.getElementById(id)
   return element
-}
+}//ET TEHC
 
 function prepareBoard() { // Add pieces on the board
   for (let i = 0; i < blackPattern.length; i++) {
@@ -158,15 +158,21 @@ function showPath(source) { // Calculate and display path
   let y2
   switch (piece) {
     case 'bPawn':
-      eatable = neighbours(x, y, color)
-      x++
-      selectable.push(selector(x, y))
-      if (source.getAttribute('data-x') == 1) {
-        x++
-        selectable.push(selector(x, y))
-        x--
+      x2 = x + 1
+      y2 = y
+      if (isPiece(x2, y2, color)) {
+        selectable.push(selector(x2, y2))
       }
-      x--
+
+      if (source.getAttribute('data-x') == 1) {
+        x2 = x + 2
+        y2 = y
+        if (isPiece(x2, y2, color)) {
+          selectable.push(selector(x2, y2))
+        }
+      }
+
+      eatable = neighbours(x, y, color)
       if (findKey(eatable, 6) == true) {
         x2 = x
         y2 = y
@@ -174,6 +180,7 @@ function showPath(source) { // Calculate and display path
         y2--
         selectable.push(selector(x2, y2))
       }
+
       if (findKey(eatable, 8) == true) {
         x2 = x
         y2 = y
@@ -181,21 +188,24 @@ function showPath(source) { // Calculate and display path
         y2++
         selectable.push(selector(x2, y2))
       }
-      if (findKey(eatable, 7) == true) {
-        selectable.splice(0, 1)
-      }
       break;
 
     case 'wPawn':
-      eatable = neighbours(x, y, color)
-      x--
-      selectable.push(selector(x, y))
-      if (source.getAttribute('data-x') == 6) {
-        x--
-        selectable.push(selector(x, y))
-        x++
+      x2 = x - 1
+      y2 = y
+      if (isPiece(x2, y2, color)) {
+        selectable.push(selector(x2, y2))
       }
-      x++
+
+      if (source.getAttribute('data-x') == 6) {
+        x2 = x - 2
+        y2 = y
+        if (isPiece(x2, y2, color)) {
+          selectable.push(selector(x2, y2))
+        }
+      }
+
+      eatable = neighbours(x, y, color)
       if (findKey(eatable, 1) == true) {
         x2 = x
         y2 = y
@@ -203,6 +213,7 @@ function showPath(source) { // Calculate and display path
         y2--
         selectable.push(selector(x2, y2))
       }
+
       if (findKey(eatable, 3) == true) {
         x2 = x
         y2 = y
@@ -210,53 +221,42 @@ function showPath(source) { // Calculate and display path
         y2++
         selectable.push(selector(x2, y2))
       }
-      if (findKey(eatable, 2) == true) {
-        selectable.splice(0, 1)
-      }
       break;
 
     case 'Rook':
       for (let index = 1; index < 8; index++) {
-        try {//Back
-          x2 = x + index
-          y2 = y
+        //Back
+        x2 = x + index
+        y2 = y
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Front
-          x2 = x - index
-          y2 = y
+        //Front
+        x2 = x - index
+        y2 = y
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Left
-          x2 = x
-          y2 = y - index
+        //Left
+        x2 = x
+        y2 = y - index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Right
-          x2 = x
-          y2 = y + index
+        //Right
+        x2 = x
+        y2 = y + index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
       break;
@@ -264,108 +264,89 @@ function showPath(source) { // Calculate and display path
 
     case 'Knight':
       //Front
-      try {// Front left
-        x2 = x - 2
-        y2 = y - 1
+
+      x2 = x - 2// Front left
+      y2 = y - 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Front right
-        x2 = x - 2
-        y2 = y + 1
+      x2 = x - 2//Front right
+      y2 = y + 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
+
       //Left
-      try {//Left top
-        x2 = x - 1
-        y2 = y - 2
+      x2 = x - 1//Left top
+      y2 = y - 2
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Left bottom
-        x2 = x + 1
-        y2 = y - 2
+      x2 = x + 1//Left bottom
+      y2 = y - 2
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
+
       //Back
-      try {//Back left
-        x2 = x + 2
-        y2 = y - 1
+      x2 = x + 2//Back left
+      y2 = y - 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Back right
-        x2 = x + 2
-        y2 = y + 1
+      x2 = x + 2//Back right
+      y2 = y + 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
+
       //Right
-      try {//Right bottom
-        x2 = x + 1
-        y2 = y + 2
+      x2 = x + 1//Right bottom
+      y2 = y + 2
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      } try {//Right top
-        x2 = x - 1
-        y2 = y + 2
+      }
+      x2 = x - 1//Right top
+      y2 = y + 2
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
       break;
 
     case 'Bishop':
       for (let index = 1; index < 8; index++) {
-        try {//Bottom right
-          x2 = x + index
-          y2 = y + index
+        //Bottom right
+        x2 = x + index
+        y2 = y + index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Top right
-          x2 = x - index
-          y2 = y + index
+        //Top right
+        x2 = x - index
+        y2 = y + index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Top left
-          x2 = x - index
-          y2 = y - index
+        //Top left
+        x2 = x - index
+        y2 = y - index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Bottom left
-          x2 = x + index
-          y2 = y - index
+        //Bottom left
+        x2 = x + index
+        y2 = y - index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
       break;
@@ -373,151 +354,126 @@ function showPath(source) { // Calculate and display path
     case 'Queen':
       //Rook path
       for (let index = 1; index < 8; index++) {
-        try {//Back
-          x2 = x + index
-          y2 = y
+        //Back
+        x2 = x + index
+        y2 = y
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Front
-          x2 = x - index
-          y2 = y
+        //Front
+        x2 = x - index
+        y2 = y
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Left
-          x2 = x
-          y2 = y - index
+        //Left
+        x2 = x
+        y2 = y - index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Right
-          x2 = x
-          y2 = y + index
+        //Right
+        x2 = x
+        y2 = y + index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       //Bishop path
       for (let index = 1; index < 8; index++) {
-        try {//Bottom right
-          x2 = x + index
-          y2 = y + index
+        //Bottom right
+        x2 = x + index
+        y2 = y + index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Top right
-          x2 = x - index
-          y2 = y + index
+        //Top right
+        x2 = x - index
+        y2 = y + index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Top left
-          x2 = x - index
-          y2 = y - index
+        //Top left
+        x2 = x - index
+        y2 = y - index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
 
       for (let index = 1; index < 8; index++) {
-        try {//Bottom left
-          x2 = x + index
-          y2 = y - index
+        //Bottom left
+        x2 = x + index
+        y2 = y - index
+        if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
         }
       }
       break;
 
     case 'King':
-      try {//Front
-        x2 = x - 1
-        y2 = y
+      x2 = x - 1//Front
+      y2 = y
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Front left
-        x2 = x - 1
-        y2 = y - 1
+
+      x2 = x - 1//Front left
+      y2 = y - 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Left
-        x2 = x
-        y2 = y - 1
+
+      x2 = x//Left
+      y2 = y - 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Back left
-        x2 = x + 1
-        y2 = y - 1
+
+      x2 = x + 1//Back left
+      y2 = y - 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Back
-        x2 = x + 1
-        y2 = y
+
+      x2 = x + 1//Back
+      y2 = y
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Back right
-        x2 = x + 1
-        y2 = y + 1
+
+      x2 = x + 1//Back right
+      y2 = y + 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Right
-        x2 = x
-        y2 = y + 1
+
+      x2 = x//Right
+      y2 = y + 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
-      try {//Front right
-        x2 = x - 1
-        y2 = y + 1
+
+      x2 = x - 1//Front right
+      y2 = y + 1
+      if (isPiece(x2, y2, color)) {
         selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
       }
       break;
 
@@ -579,21 +535,7 @@ function neighbours(x, y, color) { // Detect collisions
       console.error(error)
     }
 
-    y--
-    try {// Get the piece on the middle
-      if (selector(x, y).hasChildNodes() == true) {
-        const obj = {}
-        obj.collision = 7
-        obj.color = selector(x, y).getAttribute('data-color')
-        if (obj.color != color) {
-          collisions.push(obj)
-        }
-      } // +x
-    } catch (error) {
-      console.error(error)
-    }
-
-    y--
+    y -= 2
 
     try {// Get the piece on the left
       if (selector(x, y).hasChildNodes() == true) {
@@ -655,4 +597,23 @@ function neighbours(x, y, color) { // Detect collisions
     }
   }
   return collisions
+}
+
+function isPiece(x, y, color) {
+  try {
+    if (selector(x, y).hasChildNodes() == true) {
+      const piece = {}
+      piece.color = selector(x, y).getAttribute('data-color')
+      if (piece.color == color) {
+        return false
+      } else {
+        return true
+      }
+    }
+    else {
+      return true
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }
