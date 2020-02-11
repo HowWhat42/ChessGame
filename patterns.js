@@ -15,14 +15,14 @@ const blackPattern = [
         "name": "Bishop"
     },
     {
-        "path": "img/B_queen.png",
+        "path": "img/B_king.png",
         "y": "3",
-        "name": "Queen"
+        "name": "bKing"
     },
     {
-        "path": "img/B_king.png",
+        "path": "img/B_queen.png",
         "y": "4",
-        "name": "bKing"
+        "name": "Queen"
     },
     {
         "path": "img/B_bishop.png",
@@ -57,14 +57,14 @@ const whitePattern = [
         "name": "Bishop"
     },
     {
-        "path": "img/W_queen.png",
+        "path": "img/W_king.png",
         "y": "3",
-        "name": "Queen"
+        "name": "wKing"
     },
     {
-        "path": "img/W_king.png",
+        "path": "img/W_queen.png",
         "y": "4",
-        "name": "wKing"
+        "name": "Queen"
     },
     {
         "path": "img/W_bishop.png",

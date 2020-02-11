@@ -127,10 +127,16 @@ function selectPiece(event) { // On piece select
     movePiece(oldElement, source)
     if (turn == 1) { // Change turn to black
       turn = 0
-      checkKing("b")
+      const kingPos = document.querySelector(`[data-piece=wKing]`)
+      kingPos.classList.remove('checkmate')
+      checkKing("b")//Check king state
+      selectable = []
     } else if (turn == 0) { // Change turn to white
       turn = 1
-      checkKing("w")
+      const kingPos = document.querySelector(`[data-piece=bKing]`)
+      kingPos.classList.remove('checkmate')
+      checkKing("w")//Check king state
+      selectable = []
     }
   } else {// Abort click
     oldElement.classList.remove('selected')
@@ -591,5 +597,73 @@ function isPiece(x, y, color, type, pos) {
     }
   } catch (error) {
     return false//Not clickable
+  }
+}
+function checkKing(color) {//Check king state
+  const kingPos = document.querySelector(`[data-piece=${color}King]`)//Get king pos
+  let selectable = showPath(kingPos, "Rook")//Check if under rook attack or queen
+  selectable.forEach(element => {
+    element.classList.remove('selected')
+    let x = element.getAttribute("data-x")
+    let y = element.getAttribute("data-y")
+    let name = element.getAttribute("data-piece")
+    if (selector(x, y).hasChildNodes() == true) {
+      if (name == "Rook" || name == "Queen") {
+        kingPos.classList.add('checkmate')
+      }
+    }
+  })
+  selectable = showPath(kingPos, "Bishop")//Check if under bishop attack or queen
+  selectable.forEach(element => {
+    element.classList.remove('selected')
+    let x = element.getAttribute("data-x")
+    let y = element.getAttribute("data-y")
+    let name = element.getAttribute("data-piece")
+    if (selector(x, y).hasChildNodes() == true) {
+      if (name == "Bishop" || name == "Queen") {
+        kingPos.classList.add('checkmate')
+      }
+    }
+  })
+  selectable = showPath(kingPos, "Knight")//Check if under knight attack
+  selectable.forEach(element => {
+    element.classList.remove('selected')
+    let x = element.getAttribute("data-x")
+    let y = element.getAttribute("data-y")
+    let name = element.getAttribute("data-piece")
+    if (selector(x, y).hasChildNodes() == true) {
+      if (name == "Knight") {
+        kingPos.classList.add('checkmate')
+      }
+    }
+  })
+
+  if (color == "w") {
+    selectable = showPath(kingPos, "bPawn")//Check if under pawn attack
+    selectable.forEach(element => {
+      element.classList.remove('selected')
+      let x = element.getAttribute("data-x")
+      let y = element.getAttribute("data-y")
+      let name = element.getAttribute("data-piece")
+      if (selector(x, y).hasChildNodes() == true) {
+        if (name == "bPawn") {
+          kingPos.classList.add('checkmate')
+        }
+      }
+    })
+  }
+  else {
+    selectable = showPath(kingPos, "wPawn")//Check if under pawn attack
+    selectable.forEach(element => {
+      element.classList.remove('selected')
+      let x = element.getAttribute("data-x")
+      let y = element.getAttribute("data-y")
+      let name = element.getAttribute("data-piece")
+      if (selector(x, y).hasChildNodes() == true) {
+        if (name == "wPawn") {
+          kingPos.classList.add('checkmate')
+        }
+      }
+    })
   }
 }
