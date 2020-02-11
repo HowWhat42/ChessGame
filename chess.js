@@ -1,669 +1,664 @@
-/* eslint-disable*/
-let oldElement
-let selectable = []
-let turn = 1// Set turn to white
+
+let oldElement;
+let selectable = [];
+let turn = 1;// Set turn to white
 
 function drawBoard() { // Draw board on the webpage
-  let id = 0
-  const table = document.createElement('table')
-  table.setAttribute("id", "chessBoard")
+  let id = 0;
+  const table = document.createElement('table');
+  table.setAttribute('id', 'chessBoard');
   for (let i = 0; i < 8; i++) {
-    const tr = document.createElement('tr')
+    const tr = document.createElement('tr');
     for (let j = 0; j < 8; j++) {
-      const td = document.createElement('td')
+      const td = document.createElement('td');
       if (i % 2 == j % 2) {
-        td.className = 'w'
-        td.setAttribute('data-x', i)
-        td.setAttribute('data-y', j)
-        td.setAttribute('id', id)
-        id++
+        td.className = 'w';
+        td.setAttribute('data-x', i);
+        td.setAttribute('data-y', j);
+        td.setAttribute('id', id);
+        id++;
       } else {
-        td.className = 'b'
-        td.setAttribute('data-x', i)
-        td.setAttribute('data-y', j)
-        td.setAttribute('id', id)
-        id++
+        td.className = 'b';
+        td.setAttribute('data-x', i);
+        td.setAttribute('data-y', j);
+        td.setAttribute('id', id);
+        id++;
       }
-      tr.appendChild(td)
+      tr.appendChild(td);
     }
-    table.appendChild(tr)
+    table.appendChild(tr);
   }
-  document.body.appendChild(table)
+  document.body.appendChild(table);
 }
 
 function selector(x, y) {
-  const select = document.querySelectorAll('td[data-x="' + x + '"]')
-  let find = false
-  let yInSel
-  let i = 0
+  const select = document.querySelectorAll('td[data-x="' + x + '"]');
+  let find = false;
+  let yInSel;
+  let i = 0;
   while (find == false) {
-    yInSel = select[i].getAttribute('data-y')
+    yInSel = select[i].getAttribute('data-y');
     if (yInSel == y) {
-      find = true
+      find = true;
     } else {
-      i++
+      i++;
     }
   }
-  const id = select[i].getAttribute('id')
-  const element = document.getElementById(id)
-  return element
+  const id = select[i].getAttribute('id');
+  const element = document.getElementById(id);
+  return element;
 }
 
 function prepareBoard() { // Add pieces on the board
-  for (let i = 0; i < blackPattern.length; i++) {//Add first black pieces row
-    const element = blackPattern[i]
-    const path = element.path
-    const y = element.y
-    const x = 0
-    const chessSquare = selector(x, y)
-    const image = chessSquare.appendChild(document.createElement('img'))
-    image.setAttribute('src', path)
-    chessSquare.setAttribute('data-piece', element.name)
-    image.setAttribute('data-name', element.name)
-    chessSquare.setAttribute('data-color', 'b')
+  for (let i = 0; i < blackPattern.length; i++) {// Add first black pieces row
+    const element = blackPattern[i];
+    const path = element.path;
+    const y = element.y;
+    const x = 0;
+    const chessSquare = selector(x, y);
+    const image = chessSquare.appendChild(document.createElement('img'));
+    image.setAttribute('src', path);
+    chessSquare.setAttribute('data-piece', element.name);
+    image.setAttribute('data-name', element.name);
+    chessSquare.setAttribute('data-color', 'b');
   }
-  for (let i = 0; i < whitePattern.length; i++) {//Add first white pieces row
-    const element = whitePattern[i]
-    const path = element.path
-    const y = element.y
-    const x = 7
-    const chessSquare = selector(x, y)
-    const image = chessSquare.appendChild(document.createElement('img'))
-    image.setAttribute('src', path)
-    chessSquare.setAttribute('data-piece', element.name)
-    image.setAttribute('data-name', element.name)
-    chessSquare.setAttribute('data-color', 'w')
+  for (let i = 0; i < whitePattern.length; i++) {// Add first white pieces row
+    const element = whitePattern[i];
+    const path = element.path;
+    const y = element.y;
+    const x = 7;
+    const chessSquare = selector(x, y);
+    const image = chessSquare.appendChild(document.createElement('img'));
+    image.setAttribute('src', path);
+    chessSquare.setAttribute('data-piece', element.name);
+    image.setAttribute('data-name', element.name);
+    chessSquare.setAttribute('data-color', 'w');
   }
-  let finished = false
+  let finished = false;
   while (finished == false) {
-    let x = 1
-    for (let y = 0; y < 8; y++) {//Add black pawns row
-      const chessSquare = selector(x, y)
-      const path = blackPawn.path
-      const image = chessSquare.appendChild(document.createElement('img'))
-      image.setAttribute('src', path)
-      chessSquare.setAttribute('data-piece', blackPawn.name)
-      image.setAttribute('data-name', blackPawn.name)
-      chessSquare.setAttribute('data-color', 'b')
+    let x = 1;
+    for (let y = 0; y < 8; y++) {// Add black pawns row
+      const chessSquare = selector(x, y);
+      const path = blackPawn.path;
+      const image = chessSquare.appendChild(document.createElement('img'));
+      image.setAttribute('src', path);
+      chessSquare.setAttribute('data-piece', blackPawn.name);
+      image.setAttribute('data-name', blackPawn.name);
+      chessSquare.setAttribute('data-color', 'b');
     }
-    x = 6
-    for (let y = 0; y < 8; y++) {//Add white pawns row
-      const chessSquare = selector(x, y)
-      const path = whitePawn.path
-      const image = chessSquare.appendChild(document.createElement('img'))
-      image.setAttribute('src', path)
-      chessSquare.setAttribute('data-piece', whitePawn.name)
-      image.setAttribute('data-name', whitePawn.name)
-      chessSquare.setAttribute('data-color', 'w')
+    x = 6;
+    for (let y = 0; y < 8; y++) {// Add white pawns row
+      const chessSquare = selector(x, y);
+      const path = whitePawn.path;
+      const image = chessSquare.appendChild(document.createElement('img'));
+      image.setAttribute('src', path);
+      chessSquare.setAttribute('data-piece', whitePawn.name);
+      image.setAttribute('data-name', whitePawn.name);
+      chessSquare.setAttribute('data-color', 'w');
     }
-    finished = true
+    finished = true;
   }
 }
 
 function addListener() { // Add listener to react on click
-  const td = document.querySelectorAll('td')
-  td.forEach(element => {
-    element.onclick = selectPiece
-  })
+  const td = document.querySelectorAll('td');
+  td.forEach((element) => {
+    element.onclick = selectPiece;
+  });
 }
 
 function selectPiece(event) { // On piece select
-  let source = event.target || event.srcElement
+  let source = event.target || event.srcElement;
   if (source.tagName !== 'TD') {// Check if piece is clicked
-    source = source.parentElement
+    source = source.parentElement;
   }
 
-  const color = source.getAttribute('data-color')
+  const color = source.getAttribute('data-color');
   if (oldElement == undefined) { // Check if nothing is selected
     if (turn == 1 && color == 'w') { // Check if white is clicked and turn is white
-      showPath(source)
-      oldElement = source
+      showPath(source);
+      oldElement = source;
     }
     if (turn == 0 && color == 'b') { // Check if black is clicked and turn is black
-      showPath(source)
-      oldElement = source
+      showPath(source);
+      oldElement = source;
     }
   } else if (selectable.includes(source) == true) { // Move piece
-    movePiece(oldElement, source)
+    movePiece(oldElement, source);
     if (turn == 1) { // Change turn to black
-      turn = 0
-      const kingPos = document.querySelector(`[data-piece=wKing]`)
-      kingPos.classList.remove('checkmate')
-      checkKing("b")//Check king state
-      selectable = []
+      turn = 0;
+      const kingPos = document.querySelector(`[data-piece=wKing]`);
+      kingPos.classList.remove('checkmate');
+      checkKing('b');// Check king state
+      selectable = [];
     } else if (turn == 0) { // Change turn to white
-      turn = 1
-      const kingPos = document.querySelector(`[data-piece=bKing]`)
-      kingPos.classList.remove('checkmate')
-      checkKing("w")//Check king state
-      selectable = []
+      turn = 1;
+      const kingPos = document.querySelector(`[data-piece=bKing]`);
+      kingPos.classList.remove('checkmate');
+      checkKing('w');// Check king state
+      selectable = [];
     }
   } else {// Abort click
-    oldElement.classList.remove('selected')
-    selectable.forEach(element => {
-      element.classList.remove('selected')
-    })
-    selectable = []
-    oldElement = undefined
+    oldElement.classList.remove('selected');
+    selectable.forEach((element) => {
+      element.classList.remove('selected');
+    });
+    selectable = [];
+    oldElement = undefined;
   }
 }
 
 function showPath(source, piece) { // Calculate and display traj
-  const x = parseInt(source.getAttribute('data-x'))
-  const y = parseInt(source.getAttribute('data-y'))
+  const x = parseInt(source.getAttribute('data-x'));
+  const y = parseInt(source.getAttribute('data-y'));
   if (piece == undefined) {
-    piece = source.getAttribute('data-piece')
+    piece = source.getAttribute('data-piece');
   }
-  const color = source.getAttribute('data-color')
-  let x2
-  let y2
+  const color = source.getAttribute('data-color');
+  let x2;
+  let y2;
   switch (piece) {
     case 'bPawn':
-      x2 = x + 1//Front
-      y2 = y
-      if (isPiece(x2, y2, color, "bPawn") == "true") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 1;// Front
+      y2 = y;
+      if (isPiece(x2, y2, color, 'bPawn') == 'true') {
+        selectable.push(selector(x2, y2));
       }
-      //Front + 2
+      // Front + 2
       if (source.getAttribute('data-x') == 1) {
-        x2 = x + 2
-        y2 = y
-        if (isPiece(x2, y2, color, "bPawn") == "true") {
-          selectable.push(selector(x2, y2))
+        x2 = x + 2;
+        y2 = y;
+        if (isPiece(x2, y2, color, 'bPawn') == 'true') {
+          selectable.push(selector(x2, y2));
         }
       }
 
-      x2 = x + 1//Front Right
-      y2 = y + 1
-      if (isPiece(x2, y2, color, "bPawn", "right") == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 1;// Front Right
+      y2 = y + 1;
+      if (isPiece(x2, y2, color, 'bPawn', 'right') == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x + 1//Front left
-      y2 = y - 1
-      if (isPiece(x2, y2, color, "bPawn", "left") == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 1;// Front left
+      y2 = y - 1;
+      if (isPiece(x2, y2, color, 'bPawn', 'left') == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
-      break
+      break;
 
     case 'wPawn':
-      x2 = x - 1//Front
-      y2 = y
-      if (isPiece(x2, y2, color, "wPawn") == "true") {
-        selectable.push(selector(x2, y2))
+      x2 = x - 1;// Front
+      y2 = y;
+      if (isPiece(x2, y2, color, 'wPawn') == 'true') {
+        selectable.push(selector(x2, y2));
       }
-      //Front + 2
+      // Front + 2
       if (source.getAttribute('data-x') == 6) {
-        x2 = x - 2
-        y2 = y
-        if (isPiece(x2, y2, color, "wPawn") == "true") {
-          selectable.push(selector(x2, y2))
+        x2 = x - 2;
+        y2 = y;
+        if (isPiece(x2, y2, color, 'wPawn') == 'true') {
+          selectable.push(selector(x2, y2));
         }
       }
 
-      x2 = x - 1//Front left
-      y2 = y - 1
-      if (isPiece(x2, y2, color, "wPawn", "left") == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x - 1;// Front left
+      y2 = y - 1;
+      if (isPiece(x2, y2, color, 'wPawn', 'left') == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x - 1//Front right
-      y2 = y + 1
-      if (isPiece(x2, y2, color, "wPawn", "right") == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x - 1;// Front right
+      y2 = y + 1;
+      if (isPiece(x2, y2, color, 'wPawn', 'right') == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
       break;
 
     case 'Rook':
-      for (let index = 1; index < 8; index++) {//Back
-        x2 = x + index
-        y2 = y
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Back
+        x2 = x + index;
+        y2 = y;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Front
-        x2 = x - index
-        y2 = y
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Front
+        x2 = x - index;
+        y2 = y;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Left
-        x2 = x
-        y2 = y - index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Left
+        x2 = x;
+        y2 = y - index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Right
-        x2 = x
-        y2 = y + index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Right
+        x2 = x;
+        y2 = y + index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
       break;
 
 
     case 'Knight':
-      //Front
-      x2 = x - 2// Front left
-      y2 = y - 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      // Front
+      x2 = x - 2;// Front left
+      y2 = y - 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
-      x2 = x - 2//Front right
-      y2 = y + 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
-      }
-
-      //Left
-      x2 = x - 1//Left top
-      y2 = y - 2
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
-      }
-      x2 = x + 1//Left bottom
-      y2 = y - 2
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x - 2;// Front right
+      y2 = y + 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      //Back
-      x2 = x + 2//Back left
-      y2 = y - 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      // Left
+      x2 = x - 1;// Left top
+      y2 = y - 2;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
-      x2 = x + 2//Back right
-      y2 = y + 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 1;// Left bottom
+      y2 = y - 2;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      //Right
-      x2 = x + 1//Right bottom
-      y2 = y + 2
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      // Back
+      x2 = x + 2;// Back left
+      y2 = y - 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
-      x2 = x - 1//Right top
-      y2 = y + 2
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 2;// Back right
+      y2 = y + 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
+      }
+
+      // Right
+      x2 = x + 1;// Right bottom
+      y2 = y + 2;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
+      }
+      x2 = x - 1;// Right top
+      y2 = y + 2;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
       break;
 
     case 'Bishop':
-      for (let index = 1; index < 8; index++) {//Bottom right
-        x2 = x + index
-        y2 = y + index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Bottom right
+        x2 = x + index;
+        y2 = y + index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Top right
-        x2 = x - index
-        y2 = y + index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Top right
+        x2 = x - index;
+        y2 = y + index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Top left
-        x2 = x - index
-        y2 = y - index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Top left
+        x2 = x - index;
+        y2 = y - index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Bottom left
-        x2 = x + index
-        y2 = y - index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Bottom left
+        x2 = x + index;
+        y2 = y - index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
       break;
 
     case 'Queen':
-      //Rook path
-      for (let index = 1; index < 8; index++) {//Back
-        x2 = x + index
-        y2 = y
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      // Rook path
+      for (let index = 1; index < 8; index++) {// Back
+        x2 = x + index;
+        y2 = y;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Front
-        x2 = x - index
-        y2 = y
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Front
+        x2 = x - index;
+        y2 = y;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Left
-        x2 = x
-        y2 = y - index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Left
+        x2 = x;
+        y2 = y - index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Right
-        x2 = x
-        y2 = y + index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Right
+        x2 = x;
+        y2 = y + index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      //Bishop path
-      for (let index = 1; index < 8; index++) {//Bottom right
-        x2 = x + index
-        y2 = y + index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      // Bishop path
+      for (let index = 1; index < 8; index++) {// Bottom right
+        x2 = x + index;
+        y2 = y + index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Top right
-        x2 = x - index
-        y2 = y + index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Top right
+        x2 = x - index;
+        y2 = y + index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Top left
-        x2 = x - index
-        y2 = y - index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Top left
+        x2 = x - index;
+        y2 = y - index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
 
-      for (let index = 1; index < 8; index++) {//Bottom left
-        x2 = x + index
-        y2 = y - index
-        if (isPiece(x2, y2, color) == "true") {
-          selectable.push(selector(x2, y2))
-        } else if (isPiece(x2, y2, color) == "eatable") {
-          selectable.push(selector(x2, y2))
-          break
+      for (let index = 1; index < 8; index++) {// Bottom left
+        x2 = x + index;
+        y2 = y - index;
+        if (isPiece(x2, y2, color) == 'true') {
+          selectable.push(selector(x2, y2));
+        } else if (isPiece(x2, y2, color) == 'eatable') {
+          selectable.push(selector(x2, y2));
+          break;
         } else {
-          break
+          break;
         }
       }
       break;
 
     case 'wKing':
     case 'bKing':
-      x2 = x - 1//Front
-      y2 = y
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x - 1;// Front
+      y2 = y;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x - 1//Front left
-      y2 = y - 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x - 1;// Front left
+      y2 = y - 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x//Left
-      y2 = y - 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x;// Left
+      y2 = y - 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x + 1//Back left
-      y2 = y - 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 1;// Back left
+      y2 = y - 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x + 1//Back
-      y2 = y
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 1;// Back
+      y2 = y;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x + 1//Back right
-      y2 = y + 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x + 1;// Back right
+      y2 = y + 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x//Right
-      y2 = y + 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x;// Right
+      y2 = y + 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
 
-      x2 = x - 1//Front right
-      y2 = y + 1
-      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
-        selectable.push(selector(x2, y2))
+      x2 = x - 1;// Front right
+      y2 = y + 1;
+      if (isPiece(x2, y2, color) == 'true' || isPiece(x2, y2, color) == 'eatable') {
+        selectable.push(selector(x2, y2));
       }
       break;
 
     default:
-      break
+      break;
   }
-  selectable.forEach(element => {
-    element.classList.add('selected')
-  })
-  return selectable
+  selectable.forEach((element) => {
+    element.classList.add('selected');
+  });
+  return selectable;
 }
 
 function movePiece(source, dest) { // Move piece
-  selectable.forEach(element => {
-    element.classList.remove('selected')
-  })
+  selectable.forEach((element) => {
+    element.classList.remove('selected');
+  });
   if (dest.hasChildNodes() == true) {
-    dest.removeChild(dest.firstChild)
+    dest.removeChild(dest.firstChild);
   }
   // Get all the piece attributes
-  const img = source.firstChild
-  const name = img.getAttribute('data-name')
-  const color = source.getAttribute('data-color')
+  const img = source.firstChild;
+  const name = img.getAttribute('data-name');
+  const color = source.getAttribute('data-color');
   // Delete the piece
-  source.removeChild(source.firstChild)
-  source.removeAttribute('data-piece')
-  source.removeAttribute('data-color')
+  source.removeChild(source.firstChild);
+  source.removeAttribute('data-piece');
+  source.removeAttribute('data-color');
   // Display the piece at it's new pos
-  dest.appendChild(img)
-  dest.setAttribute('data-piece', name)
-  dest.setAttribute('data-color', color)
-  selectable = []
-  oldElement = undefined
+  dest.appendChild(img);
+  dest.setAttribute('data-piece', name);
+  dest.setAttribute('data-color', color);
+  selectable = [];
+  oldElement = undefined;
 }
 
 function isPiece(x, y, color, type, pos) {
   try {
-    if (type == "wPawn" || type == "bPawn") {//Check if pawn
-      if (selector(x, y).hasChildNodes() == true) {//Check if piece on the tile
-        const neighbourColor = selector(x, y).getAttribute('data-color')//Get neighbour color
-        if (neighbourColor == color) {//Check difference of colors
-          return false//Not eatable
-        } else if (pos == "left" || pos == "right") {
-          return "eatable"//Eatable
+    if (type == 'wPawn' || type == 'bPawn') {// Check if pawn
+      if (selector(x, y).hasChildNodes() == true) {// Check if piece on the tile
+        const neighbourColor = selector(x, y).getAttribute('data-color');// Get neighbour color
+        if (neighbourColor == color) {// Check difference of colors
+          return false;// Not eatable
+        } else if (pos == 'left' || pos == 'right') {
+          return 'eatable';// Eatable
         }
+      } else if (pos == 'left' || pos == 'right') {
+        return false;// Not Eatable
+      } else {
+        return 'true';// Clickable
       }
-      else if (pos == "left" || pos == "right") {
-        return false//Not Eatable
-      }
-      else {
-        return "true"//Clickable
-      }
-    }
-    else {
-      if (selector(x, y).hasChildNodes() == true) {//Check if piece on the tile
-        const neighbourColor = selector(x, y).getAttribute('data-color')//Get neighbour color
-        if (neighbourColor == color) {//Check difference of colors
-          return false//Not Eatable
+    } else {
+      if (selector(x, y).hasChildNodes() == true) {// Check if piece on the tile
+        const neighbourColor = selector(x, y).getAttribute('data-color');// Get neighbour color
+        if (neighbourColor == color) {// Check difference of colors
+          return false;// Not Eatable
         } else {
-          return "eatable"//Eatable
+          return 'eatable';// Eatable
         }
-      }
-      else {
-        return "true"//Clickable
+      } else {
+        return 'true';// Clickable
       }
     }
   } catch (error) {
-    return false//Not clickable
+    return false;// Not clickable
   }
 }
-function checkKing(color) {//Check king state
-  const kingPos = document.querySelector(`[data-piece=${color}King]`)//Get king pos
-  let selectable = showPath(kingPos, "Rook")//Check if under rook attack or queen
-  selectable.forEach(element => {
-    element.classList.remove('selected')
-    let x = element.getAttribute("data-x")
-    let y = element.getAttribute("data-y")
-    let name = element.getAttribute("data-piece")
+function checkKing(color) {// Check king state
+  const kingPos = document.querySelector(`[data-piece=${color}King]`);// Get king pos
+  let selectable = showPath(kingPos, 'Rook');// Check if under rook attack or queen
+  selectable.forEach((element) => {
+    element.classList.remove('selected');
+    const x = element.getAttribute('data-x');
+    const y = element.getAttribute('data-y');
+    const name = element.getAttribute('data-piece');
     if (selector(x, y).hasChildNodes() == true) {
-      if (name == "Rook" || name == "Queen") {
-        kingPos.classList.add('checkmate')
+      if (name == 'Rook' || name == 'Queen') {
+        kingPos.classList.add('checkmate');
       }
     }
-  })
-  selectable = showPath(kingPos, "Bishop")//Check if under bishop attack or queen
-  selectable.forEach(element => {
-    element.classList.remove('selected')
-    let x = element.getAttribute("data-x")
-    let y = element.getAttribute("data-y")
-    let name = element.getAttribute("data-piece")
+  });
+  selectable = showPath(kingPos, 'Bishop');// Check if under bishop attack or queen
+  selectable.forEach((element) => {
+    element.classList.remove('selected');
+    const x = element.getAttribute('data-x');
+    const y = element.getAttribute('data-y');
+    const name = element.getAttribute('data-piece');
     if (selector(x, y).hasChildNodes() == true) {
-      if (name == "Bishop" || name == "Queen") {
-        kingPos.classList.add('checkmate')
+      if (name == 'Bishop' || name == 'Queen') {
+        kingPos.classList.add('checkmate');
       }
     }
-  })
-  selectable = showPath(kingPos, "Knight")//Check if under knight attack
-  selectable.forEach(element => {
-    element.classList.remove('selected')
-    let x = element.getAttribute("data-x")
-    let y = element.getAttribute("data-y")
-    let name = element.getAttribute("data-piece")
+  });
+  selectable = showPath(kingPos, 'Knight');// Check if under knight attack
+  selectable.forEach((element) => {
+    element.classList.remove('selected');
+    const x = element.getAttribute('data-x');
+    const y = element.getAttribute('data-y');
+    const name = element.getAttribute('data-piece');
     if (selector(x, y).hasChildNodes() == true) {
-      if (name == "Knight") {
-        kingPos.classList.add('checkmate')
+      if (name == 'Knight') {
+        kingPos.classList.add('checkmate');
       }
     }
-  })
+  });
 
-  if (color == "w") {
-    selectable = showPath(kingPos, "bPawn")//Check if under pawn attack
-    selectable.forEach(element => {
-      element.classList.remove('selected')
-      let x = element.getAttribute("data-x")
-      let y = element.getAttribute("data-y")
-      let name = element.getAttribute("data-piece")
+  if (color == 'w') {
+    selectable = showPath(kingPos, 'bPawn');// Check if under pawn attack
+    selectable.forEach((element) => {
+      element.classList.remove('selected');
+      const x = element.getAttribute('data-x');
+      const y = element.getAttribute('data-y');
+      const name = element.getAttribute('data-piece');
       if (selector(x, y).hasChildNodes() == true) {
-        if (name == "bPawn") {
-          kingPos.classList.add('checkmate')
+        if (name == 'bPawn') {
+          kingPos.classList.add('checkmate');
         }
       }
-    })
-  }
-  else {
-    selectable = showPath(kingPos, "wPawn")//Check if under pawn attack
-    selectable.forEach(element => {
-      element.classList.remove('selected')
-      let x = element.getAttribute("data-x")
-      let y = element.getAttribute("data-y")
-      let name = element.getAttribute("data-piece")
+    });
+  } else {
+    selectable = showPath(kingPos, 'wPawn');// Check if under pawn attack
+    selectable.forEach((element) => {
+      element.classList.remove('selected');
+      const x = element.getAttribute('data-x');
+      const y = element.getAttribute('data-y');
+      const name = element.getAttribute('data-piece');
       if (selector(x, y).hasChildNodes() == true) {
-        if (name == "wPawn") {
-          kingPos.classList.add('checkmate')
+        if (name == 'wPawn') {
+          kingPos.classList.add('checkmate');
         }
       }
-    })
+    });
   }
 }
