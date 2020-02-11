@@ -1,0 +1,30 @@
+body {
+  font-family: "Varela Round", sans-serif;
+  background-color: #1b262c;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+}
+body #scoreTable {
+  width: 50vw;
+  border-radius: 10px;
+  margin: auto;
+  border-spacing: 5px;
+  background-color: #0f4c75;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+body #scoreTable td {
+  width: 50%;
+  border-radius: 10px;
+  padding: 0px;
+  text-align: center;
+  padding: 10px;
+  background-color: #3282b8;
+}
+
+/*# sourceMappingURL=style.css.map */

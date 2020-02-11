@@ -1,0 +1,34 @@
+table {
+    border: 1px solid black;
+    margin: auto;
+  }
+
+  .b,
+  .w,
+  .g {
+    padding: 0%;
+    margin: -1px;
+    height: 50px;
+    width: 50px;
+    float: left;
+  }
+
+  .b {
+    background-color: grey;
+  }
+
+  .w {
+    background-color: white;
+  }
+
+  .g {
+    background-color: grey;
+  }
+
+  img {
+    height: 48px;
+  }
+
+  .selected {
+    background-color: darkgray;
+  }

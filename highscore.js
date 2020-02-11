@@ -1,7 +1,12 @@
 /* eslint-disable require-jsdoc */
 
-function highScore(score) {
-  const name = document.querySelector('#username').value;
+function highScore(name, score) {
+  try {
+    const name = document.querySelector('#username').value;
+  } catch (error) {
+
+  }
+
   fetch('http://localhost:8080', {
     method: 'POST',
     headers: {
@@ -19,6 +24,7 @@ function highScore(score) {
         console.log(scoreTable);
         console.log();
         const table = document.createElement('table');
+        table.setAttribute('id', 'scoreTable');
         scoreTable.forEach((element) => {
           const tr = document.createElement('tr');
 
