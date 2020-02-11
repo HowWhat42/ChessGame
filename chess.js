@@ -142,8 +142,8 @@ function selectPiece(event) { // On piece select
 }
 
 function showTraj(source) { // Calculate and display traj
-  const x = source.getAttribute('data-x')
-  const y = source.getAttribute('data-y')
+  const x = parseInt(source.getAttribute('data-x'))
+  const y = parseInt(source.getAttribute('data-y'))
   const piece = source.getAttribute('data-piece')
   const color = source.getAttribute('data-color')
   let x2
