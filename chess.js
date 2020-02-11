@@ -1,9 +1,9 @@
-/* eslint-disable eqeqeq */
+/* eslint-disable*/
 let oldElement
 let selectable = []
 let turn = 1// Set turn to white
 
-function drawBoard() { // Draw board on the webpage
+function drawBoard () { // Draw board on the webpage
   let id = 0
   const table = document.createElement('table')
   for (let i = 0; i < 8; i++) {
@@ -30,7 +30,7 @@ function drawBoard() { // Draw board on the webpage
   document.body.appendChild(table)
 }
 
-function selector(x, y) {
+function selector (x, y) {
   const select = document.querySelectorAll('td[data-x="' + x + '"]')
   let find = false
   let yInSel
@@ -48,7 +48,7 @@ function selector(x, y) {
   return element
 }
 
-function prepareBoard() { // Add pieces on the board
+function prepareBoard () { // Add pieces on the board
   for (let i = 0; i < blackPattern.length; i++) {
     const element = blackPattern[i]
     const path = element.path
@@ -101,41 +101,40 @@ function prepareBoard() { // Add pieces on the board
   }
 }
 
-function addListener() { // Add listener to react on click
+function addListener () { // Add listener to react on click
   const td = document.querySelectorAll('td')
   td.forEach(element => {
     element.onclick = selectPiece
   })
 }
 
-function selectPiece(event) { // On piece select
+function selectPiece (event) { // On piece select
   let source = event.target || event.srcElement
   console.log(source)
   console.log(source.tagName)
-  if (source.tagName !== 'TD') {// Check if piece is clicked
+  if (source.tagName !== 'TD') { // Check if piece is clicked
     source = source.parentElement
   }
 
-  let color = source.getAttribute('data-color')
-  if (oldElement == undefined) {// Check if nothing is selected
-    if (turn == 1 && color == 'w') {// Check if white is clicked and turn is white
-      showPath(source)
+  const color = source.getAttribute('data-color')
+  if (oldElement == undefined) { // Check if nothing is selected
+    if (turn == 1 && color == 'w') { // Check if white is clicked and turn is white
+      showTraj(source)
       oldElement = source
     }
-    if (turn == 0 && color == 'b') {// Check if black is clicked and turn is black
-      showPath(source)
+    if (turn == 0 && color == 'b') { // Check if black is clicked and turn is black
+      showTraj(source)
       oldElement = source
     }
-  } else if (selectable.includes(source) == true) {// Move piece
+  } else if (selectable.includes(source) == true) { // Move piece
     movePiece(oldElement, source)
-    if (turn == 1) {// Change turn to black
+    if (turn == 1) { // Change turn to black
       turn = 0
-    }
-    else if (turn == 0) {// Change turn to white
+    } else if (turn == 0) { // Change turn to white
       turn = 1
     }
     console.log('clicked twice')
-  } else {// Abort click
+  } else { // Abort click
     oldElement.classList.remove('selected')
     selectable.forEach(element => {
       element.classList.remove('selected')
@@ -146,9 +145,9 @@ function selectPiece(event) { // On piece select
   }
 }
 
-function showPath(source) { // Calculate and display path
-  let x = parseInt(source.getAttribute('data-x'))
-  let y = parseInt(source.getAttribute('data-y'))
+function showTraj (source) { // Calculate and display traj
+  let x = source.getAttribute('data-x')
+  const y = source.getAttribute('data-y')
   const piece = source.getAttribute('data-piece')
   const color = source.getAttribute('data-color')
   console.log('x : ' + x + ' y : ' + y)
@@ -184,7 +183,7 @@ function showPath(source) { // Calculate and display path
       if (findKey(eatable, 7) == true) {
         selectable.splice(0, 1)
       }
-      break;
+      break
 
     case 'wPawn':
       eatable = neighbours(x, y, color)
@@ -213,323 +212,47 @@ function showPath(source) { // Calculate and display path
       if (findKey(eatable, 2) == true) {
         selectable.splice(0, 1)
       }
-      break;
+      break
 
-    case 'Rook':
-      for (let index = 1; index < 8; index++) {
-        try {//Back
-          x2 = x + index
-          y2 = y
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
+    case 'bRook':
+      break
 
-      for (let index = 1; index < 8; index++) {
-        try {//Front
-          x2 = x - index
-          y2 = y
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
+    case 'wRook':
+      break
 
-      for (let index = 1; index < 8; index++) {
-        try {//Left
-          x2 = x
-          y2 = y - index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
+    case 'bKnight':
+      break
 
-      for (let index = 1; index < 8; index++) {
-        try {//Right
-          x2 = x
-          y2 = y + index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-      break;
+    case 'wKnight':
+      break
 
+    case 'bBishop':
+      break
 
-    case 'Knight':
-      //Front
-      try {// Front left
-        x2 = x - 2
-        y2 = y - 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Front right
-        x2 = x - 2
-        y2 = y + 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      //Left
-      try {//Left top
-        x2 = x - 1
-        y2 = y - 2
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Left bottom
-        x2 = x + 1
-        y2 = y - 2
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      //Back
-      try {//Back left
-        x2 = x + 2
-        y2 = y - 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Back right
-        x2 = x + 2
-        y2 = y + 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      //Right
-      try {//Right bottom
-        x2 = x + 1
-        y2 = y + 2
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      } try {//Right top
-        x2 = x - 1
-        y2 = y + 2
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      break;
+    case 'wBishop':
+      break
 
-    case 'Bishop':
-      for (let index = 1; index < 8; index++) {
-        try {//Bottom right
-          x2 = x + index
-          y2 = y + index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
+    case 'bQueen':
+      break
 
-      for (let index = 1; index < 8; index++) {
-        try {//Top right
-          x2 = x - index
-          y2 = y + index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
+    case 'wQueen':
+      break
 
-      for (let index = 1; index < 8; index++) {
-        try {//Top left
-          x2 = x - index
-          y2 = y - index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
+    case 'bKing':
+      break
 
-      for (let index = 1; index < 8; index++) {
-        try {//Bottom left
-          x2 = x + index
-          y2 = y - index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-      break;
-
-    case 'Queen':
-      //Rook path
-      for (let index = 1; index < 8; index++) {
-        try {//Back
-          x2 = x + index
-          y2 = y
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-
-      for (let index = 1; index < 8; index++) {
-        try {//Front
-          x2 = x - index
-          y2 = y
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-
-      for (let index = 1; index < 8; index++) {
-        try {//Left
-          x2 = x
-          y2 = y - index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-
-      for (let index = 1; index < 8; index++) {
-        try {//Right
-          x2 = x
-          y2 = y + index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-
-      //Bishop path
-      for (let index = 1; index < 8; index++) {
-        try {//Bottom right
-          x2 = x + index
-          y2 = y + index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-
-      for (let index = 1; index < 8; index++) {
-        try {//Top right
-          x2 = x - index
-          y2 = y + index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-
-      for (let index = 1; index < 8; index++) {
-        try {//Top left
-          x2 = x - index
-          y2 = y - index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-
-      for (let index = 1; index < 8; index++) {
-        try {//Bottom left
-          x2 = x + index
-          y2 = y - index
-          selectable.push(selector(x2, y2))
-        } catch (error) {
-          console.error(error)
-          break
-        }
-      }
-      break;
-
-    case 'King':
-      try {//Front
-        x2 = x - 1
-        y2 = y
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Front left
-        x2 = x - 1
-        y2 = y - 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Left
-        x2 = x
-        y2 = y - 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Back left
-        x2 = x + 1
-        y2 = y - 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Back
-        x2 = x + 1
-        y2 = y
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Back right
-        x2 = x + 1
-        y2 = y + 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Right
-        x2 = x
-        y2 = y + 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      try {//Front right
-        x2 = x - 1
-        y2 = y + 1
-        selectable.push(selector(x2, y2))
-      } catch (error) {
-        console.error(error)
-      }
-      break;
+    case 'wKing':
+      break
 
     default:
-      break;
+      break
   }
   selectable.forEach(element => {
     element.classList.add('selected')
   })
 }
 
-function movePiece(source, dest) { // Move piece
+function movePiece (source, dest) { // Move piece
   console.log('item has to be moved from : ' + source + ' to : ' + dest)
   selectable.forEach(element => {
     element.classList.remove('selected')
@@ -538,14 +261,14 @@ function movePiece(source, dest) { // Move piece
   if (dest.hasChildNodes() == true) {
     dest.removeChild(dest.firstChild)
   }
-  //Get all the piece attributes
+  // Get all the piece attributes
   const img = source.firstChild
   const name = img.getAttribute('data-name')
   const color = source.getAttribute('data-color')
-  //Delete the piece
+  // Delete the piece
   source.removeChild(source.firstChild)
   source.removeAttribute('data-piece')
-  //Display the piece at it's new pos
+  // Display the piece at it's new pos
   dest.appendChild(img)
   dest.setAttribute('data-piece', name)
   dest.setAttribute('data-color', color)
@@ -553,7 +276,7 @@ function movePiece(source, dest) { // Move piece
   oldElement = undefined
 }
 
-function neighbours(x, y, color) { // Detect collisions
+function neighbours (x, y, color) { // Detect collisions
   /*
     -x-y | -x | -x+y    1|2|3
     -y   | xy | +y      4| |5
