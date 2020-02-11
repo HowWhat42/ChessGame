@@ -6,6 +6,7 @@ let turn = 1// Set turn to white
 function drawBoard() { // Draw board on the webpage
   let id = 0
   const table = document.createElement('table')
+  table.setAttribute("id", "chessBoard")
   for (let i = 0; i < 8; i++) {
     const tr = document.createElement('tr')
     for (let j = 0; j < 8; j++) {
