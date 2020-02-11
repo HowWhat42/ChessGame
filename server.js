@@ -59,7 +59,7 @@ function update(body) {
   }
 
   scoreboard.sort(function(a, b) {
-    return a.score - b.score;
+    return b.score - a.score;
   });
 
   console.log(scoreboard.length);
