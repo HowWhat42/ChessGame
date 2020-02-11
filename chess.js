@@ -129,13 +129,17 @@ function selectPiece(event) { // On piece select
       turn = 0;
       const kingPos = document.querySelector(`[data-piece=wKing]`);
       kingPos.classList.remove('checkmate');
-      checkKing('b');// Check king state
+      if (underAttack('King', 'b')) {// Check king state
+        kingPos.classList.add('checkmate');
+      }
       selectable = [];
     } else if (turn == 0) { // Change turn to white
       turn = 1;
       const kingPos = document.querySelector(`[data-piece=bKing]`);
       kingPos.classList.remove('checkmate');
-      checkKing('w');// Check king state
+      if (underAttack('King', 'w')) {// Check king state
+        kingPos.classList.add('checkmate');
+      }
       selectable = [];
     }
   } else {// Abort click
@@ -215,6 +219,8 @@ function showPath(source, piece) { // Calculate and display traj
       break;
 
     case 'Rook':
+    case 'wRook':
+    case 'bRook':
       for (let index = 1; index < 8; index++) {// Back
         x2 = x + index;
         y2 = y;
@@ -268,8 +274,9 @@ function showPath(source, piece) { // Calculate and display traj
       }
       break;
 
-
     case 'Knight':
+    case 'wKnight':
+    case 'bKnight':
       // Front
       x2 = x - 2;// Front left
       y2 = y - 1;
@@ -320,6 +327,8 @@ function showPath(source, piece) { // Calculate and display traj
       break;
 
     case 'Bishop':
+    case 'wBishop':
+    case 'bBishop':
       for (let index = 1; index < 8; index++) {// Bottom right
         x2 = x + index;
         y2 = y + index;
@@ -374,6 +383,8 @@ function showPath(source, piece) { // Calculate and display traj
       break;
 
     case 'Queen':
+    case 'wQueen':
+    case 'bQueen':
       // Rook path
       for (let index = 1; index < 8; index++) {// Back
         x2 = x + index;
@@ -595,47 +606,59 @@ function isPiece(x, y, color, type, pos) {
     return false;// Not clickable
   }
 }
-function checkKing(color) {// Check king state
-  const kingPos = document.querySelector(`[data-piece=${color}King]`);// Get king pos
-  let selectable = showPath(kingPos, 'Rook');// Check if under rook attack or queen
+function underAttack(piece, color) {// Check king state
+  const piecePos = document.querySelector(`[data-piece=${color}${piece}]`);// Get king pos
+  let selectable = showPath(piecePos, 'Rook');// Check if under rook attack or queen
   selectable.forEach((element) => {
     element.classList.remove('selected');
     const x = element.getAttribute('data-x');
     const y = element.getAttribute('data-y');
     const name = element.getAttribute('data-piece');
     if (selector(x, y).hasChildNodes() == true) {
-      if (name == 'Rook' || name == 'Queen') {
-        kingPos.classList.add('checkmate');
+      if (name == 'wRook' || name == 'wQueen' || name == 'bRook' || name == 'bQueen') {
+        piecePos.classList.add('checkmate');
+        return true
+      }
+      else {
+        return false
       }
     }
   });
-  selectable = showPath(kingPos, 'Bishop');// Check if under bishop attack or queen
+  selectable = showPath(piecePos, 'Bishop');// Check if under bishop attack or queen
   selectable.forEach((element) => {
     element.classList.remove('selected');
     const x = element.getAttribute('data-x');
     const y = element.getAttribute('data-y');
     const name = element.getAttribute('data-piece');
     if (selector(x, y).hasChildNodes() == true) {
-      if (name == 'Bishop' || name == 'Queen') {
-        kingPos.classList.add('checkmate');
+      if (name == 'wBishop' || name == 'wQueen' || name == 'bBishop' || name == 'bQueen') {
+        piecePos.classList.add('checkmate');
+        return true
+      }
+      else {
+        return false
       }
     }
   });
-  selectable = showPath(kingPos, 'Knight');// Check if under knight attack
+  selectable = showPath(piecePos, 'Knight');// Check if under knight attack
   selectable.forEach((element) => {
     element.classList.remove('selected');
     const x = element.getAttribute('data-x');
     const y = element.getAttribute('data-y');
     const name = element.getAttribute('data-piece');
     if (selector(x, y).hasChildNodes() == true) {
-      if (name == 'Knight') {
-        kingPos.classList.add('checkmate');
+      if (name == 'wKnight' || name == 'bKnight') {
+        piecePos.classList.add('checkmate');
+        return true
+      }
+      else {
+        return false
       }
     }
   });
 
   if (color == 'w') {
-    selectable = showPath(kingPos, 'bPawn');// Check if under pawn attack
+    selectable = showPath(piecePos, 'bPawn');// Check if under pawn attack
     selectable.forEach((element) => {
       element.classList.remove('selected');
       const x = element.getAttribute('data-x');
@@ -643,12 +666,16 @@ function checkKing(color) {// Check king state
       const name = element.getAttribute('data-piece');
       if (selector(x, y).hasChildNodes() == true) {
         if (name == 'bPawn') {
-          kingPos.classList.add('checkmate');
+          piecePos.classList.add('checkmate');
+          return true
+        }
+        else {
+          return false
         }
       }
     });
   } else {
-    selectable = showPath(kingPos, 'wPawn');// Check if under pawn attack
+    selectable = showPath(piecePos, 'wPawn');// Check if under pawn attack
     selectable.forEach((element) => {
       element.classList.remove('selected');
       const x = element.getAttribute('data-x');
@@ -656,7 +683,11 @@ function checkKing(color) {// Check king state
       const name = element.getAttribute('data-piece');
       if (selector(x, y).hasChildNodes() == true) {
         if (name == 'wPawn') {
-          kingPos.classList.add('checkmate');
+          piecePos.classList.add('checkmate');
+          return true
+        }
+        else {
+          return false
         }
       }
     });
