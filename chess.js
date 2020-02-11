@@ -85,7 +85,6 @@ function prepareBoard() { // Add pieces on the board
       chessSquare.setAttribute('data-piece', blackPawn.name)
       image.setAttribute('data-name', blackPawn.name)
       chessSquare.setAttribute('data-color', 'b')
-      image.setAttribute('data-color', 'b')
     }
     x = 6
     for (let y = 0; y < 8; y++) {//Add white pawns row
@@ -96,7 +95,6 @@ function prepareBoard() { // Add pieces on the board
       chessSquare.setAttribute('data-piece', whitePawn.name)
       image.setAttribute('data-name', whitePawn.name)
       chessSquare.setAttribute('data-color', 'w')
-      image.setAttribute('data-color', 'w')
     }
     finished = true
   }
@@ -118,19 +116,21 @@ function selectPiece(event) { // On piece select
   const color = source.getAttribute('data-color')
   if (oldElement == undefined) { // Check if nothing is selected
     if (turn == 1 && color == 'w') { // Check if white is clicked and turn is white
-      showTraj(source)
+      showPath(source)
       oldElement = source
     }
     if (turn == 0 && color == 'b') { // Check if black is clicked and turn is black
-      showTraj(source)
+      showPath(source)
       oldElement = source
     }
   } else if (selectable.includes(source) == true) { // Move piece
     movePiece(oldElement, source)
     if (turn == 1) { // Change turn to black
       turn = 0
+      checkKing("b")
     } else if (turn == 0) { // Change turn to white
       turn = 1
+      checkKing("w")
     }
   } else {// Abort click
     oldElement.classList.remove('selected')
@@ -142,10 +142,12 @@ function selectPiece(event) { // On piece select
   }
 }
 
-function showTraj(source) { // Calculate and display traj
+function showPath(source, piece) { // Calculate and display traj
   const x = parseInt(source.getAttribute('data-x'))
   const y = parseInt(source.getAttribute('data-y'))
-  const piece = source.getAttribute('data-piece')
+  if (piece == undefined) {
+    piece = source.getAttribute('data-piece')
+  }
   const color = source.getAttribute('data-color')
   let x2
   let y2
@@ -153,27 +155,27 @@ function showTraj(source) { // Calculate and display traj
     case 'bPawn':
       x2 = x + 1//Front
       y2 = y
-      if (isPiece(x2, y2, color, "bPawn")) {
+      if (isPiece(x2, y2, color, "bPawn") == "true") {
         selectable.push(selector(x2, y2))
       }
       //Front + 2
       if (source.getAttribute('data-x') == 1) {
         x2 = x + 2
         y2 = y
-        if (isPiece(x2, y2, color, "bPawn")) {
+        if (isPiece(x2, y2, color, "bPawn") == "true") {
           selectable.push(selector(x2, y2))
         }
       }
 
       x2 = x + 1//Front Right
       y2 = y + 1
-      if (isPiece(x2, y2, color, "bPawn", "right")) {
+      if (isPiece(x2, y2, color, "bPawn", "right") == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x + 1//Front left
       y2 = y - 1
-      if (isPiece(x2, y2, color, "bPawn", "left")) {
+      if (isPiece(x2, y2, color, "bPawn", "left") == "eatable") {
         selectable.push(selector(x2, y2))
       }
       break
@@ -181,27 +183,27 @@ function showTraj(source) { // Calculate and display traj
     case 'wPawn':
       x2 = x - 1//Front
       y2 = y
-      if (isPiece(x2, y2, color, "wPawn")) {
+      if (isPiece(x2, y2, color, "wPawn") == "true") {
         selectable.push(selector(x2, y2))
       }
       //Front + 2
       if (source.getAttribute('data-x') == 6) {
         x2 = x - 2
         y2 = y
-        if (isPiece(x2, y2, color, "wPawn")) {
+        if (isPiece(x2, y2, color, "wPawn") == "true") {
           selectable.push(selector(x2, y2))
         }
       }
 
       x2 = x - 1//Front left
       y2 = y - 1
-      if (isPiece(x2, y2, color, "wPawn", "left")) {
+      if (isPiece(x2, y2, color, "wPawn", "left") == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x - 1//Front right
       y2 = y + 1
-      if (isPiece(x2, y2, color, "wPawn", "right")) {
+      if (isPiece(x2, y2, color, "wPawn", "right") == "eatable") {
         selectable.push(selector(x2, y2))
       }
       break;
@@ -210,8 +212,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Back
         x2 = x + index
         y2 = y
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -220,8 +225,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Front
         x2 = x - index
         y2 = y
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -230,8 +238,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Left
         x2 = x
         y2 = y - index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -240,8 +251,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Right
         x2 = x
         y2 = y + index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -253,48 +267,48 @@ function showTraj(source) { // Calculate and display traj
       //Front
       x2 = x - 2// Front left
       y2 = y - 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
       x2 = x - 2//Front right
       y2 = y + 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       //Left
       x2 = x - 1//Left top
       y2 = y - 2
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
       x2 = x + 1//Left bottom
       y2 = y - 2
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       //Back
       x2 = x + 2//Back left
       y2 = y - 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
       x2 = x + 2//Back right
       y2 = y + 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       //Right
       x2 = x + 1//Right bottom
       y2 = y + 2
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
       x2 = x - 1//Right top
       y2 = y + 2
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
       break;
@@ -303,8 +317,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Bottom right
         x2 = x + index
         y2 = y + index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -313,8 +330,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Top right
         x2 = x - index
         y2 = y + index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -323,8 +343,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Top left
         x2 = x - index
         y2 = y - index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -333,8 +356,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Bottom left
         x2 = x + index
         y2 = y - index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -346,8 +372,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Back
         x2 = x + index
         y2 = y
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -356,8 +385,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Front
         x2 = x - index
         y2 = y
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -366,8 +398,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Left
         x2 = x
         y2 = y - index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -376,8 +411,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Right
         x2 = x
         y2 = y + index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -387,8 +425,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Bottom right
         x2 = x + index
         y2 = y + index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -397,8 +438,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Top right
         x2 = x - index
         y2 = y + index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -407,8 +451,11 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Top left
         x2 = x - index
         y2 = y - index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
@@ -417,60 +464,64 @@ function showTraj(source) { // Calculate and display traj
       for (let index = 1; index < 8; index++) {//Bottom left
         x2 = x + index
         y2 = y - index
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color) == "true") {
           selectable.push(selector(x2, y2))
+        } else if (isPiece(x2, y2, color) == "eatable") {
+          selectable.push(selector(x2, y2))
+          break
         } else {
           break
         }
       }
       break;
 
-    case 'King':
+    case 'wKing':
+    case 'bKing':
       x2 = x - 1//Front
       y2 = y
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x - 1//Front left
       y2 = y - 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x//Left
       y2 = y - 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x + 1//Back left
       y2 = y - 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x + 1//Back
       y2 = y
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x + 1//Back right
       y2 = y + 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x//Right
       y2 = y + 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
 
       x2 = x - 1//Front right
       y2 = y + 1
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color) == "true" || isPiece(x2, y2, color) == "eatable") {
         selectable.push(selector(x2, y2))
       }
       break;
@@ -481,6 +532,7 @@ function showTraj(source) { // Calculate and display traj
   selectable.forEach(element => {
     element.classList.add('selected')
   })
+  return selectable
 }
 
 function movePiece(source, dest) { // Move piece
@@ -497,6 +549,7 @@ function movePiece(source, dest) { // Move piece
   // Delete the piece
   source.removeChild(source.firstChild)
   source.removeAttribute('data-piece')
+  source.removeAttribute('data-color')
   // Display the piece at it's new pos
   dest.appendChild(img)
   dest.setAttribute('data-piece', name)
@@ -513,14 +566,14 @@ function isPiece(x, y, color, type, pos) {
         if (neighbourColor == color) {//Check difference of colors
           return false//Not eatable
         } else if (pos == "left" || pos == "right") {
-          return true//Eatable
+          return "eatable"//Eatable
         }
       }
       else if (pos == "left" || pos == "right") {
         return false//Not Eatable
       }
       else {
-        return true//Clickable
+        return "true"//Clickable
       }
     }
     else {
@@ -529,11 +582,11 @@ function isPiece(x, y, color, type, pos) {
         if (neighbourColor == color) {//Check difference of colors
           return false//Not Eatable
         } else {
-          return true//Eatable
+          return "eatable"//Eatable
         }
       }
       else {
-        return true//Clickable
+        return "true"//Clickable
       }
     }
   } catch (error) {

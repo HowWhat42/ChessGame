@@ -22,7 +22,7 @@ const blackPattern = [
     {
         "path": "img/B_king.png",
         "y": "4",
-        "name": "King"
+        "name": "bKing"
     },
     {
         "path": "img/B_bishop.png",
@@ -64,7 +64,7 @@ const whitePattern = [
     {
         "path": "img/W_king.png",
         "y": "4",
-        "name": "King"
+        "name": "wKing"
     },
     {
         "path": "img/W_bishop.png",
