@@ -49,7 +49,7 @@ function selector(x, y) {
 }
 
 function prepareBoard() { // Add pieces on the board
-  for (let i = 0; i < blackPattern.length; i++) {
+  for (let i = 0; i < blackPattern.length; i++) {//Add first black pieces row
     const element = blackPattern[i]
     const path = element.path
     const y = element.y
@@ -61,7 +61,7 @@ function prepareBoard() { // Add pieces on the board
     image.setAttribute('data-name', element.name)
     chessSquare.setAttribute('data-color', 'b')
   }
-  for (let i = 0; i < whitePattern.length; i++) {
+  for (let i = 0; i < whitePattern.length; i++) {//Add first white pieces row
     const element = whitePattern[i]
     const path = element.path
     const y = element.y
@@ -76,7 +76,7 @@ function prepareBoard() { // Add pieces on the board
   let finished = false
   while (finished == false) {
     let x = 1
-    for (let y = 0; y < 8; y++) {
+    for (let y = 0; y < 8; y++) {//Add black pawns row
       const chessSquare = selector(x, y)
       const path = blackPawn.path
       const image = chessSquare.appendChild(document.createElement('img'))
@@ -87,7 +87,7 @@ function prepareBoard() { // Add pieces on the board
       image.setAttribute('data-color', 'b')
     }
     x = 6
-    for (let y = 0; y < 8; y++) {
+    for (let y = 0; y < 8; y++) {//Add white pawns row
       const chessSquare = selector(x, y)
       const path = whitePawn.path
       const image = chessSquare.appendChild(document.createElement('img'))
@@ -142,7 +142,7 @@ function selectPiece(event) { // On piece select
 }
 
 function showTraj(source) { // Calculate and display traj
-  let x = source.getAttribute('data-x')
+  const x = source.getAttribute('data-x')
   const y = source.getAttribute('data-y')
   const piece = source.getAttribute('data-piece')
   const color = source.getAttribute('data-color')
@@ -150,12 +150,12 @@ function showTraj(source) { // Calculate and display traj
   let y2
   switch (piece) {
     case 'bPawn':
-      x2 = x + 1
+      x2 = x + 1//Front
       y2 = y
       if (isPiece(x2, y2, color, "bPawn")) {
         selectable.push(selector(x2, y2))
       }
-
+      //Front + 2
       if (source.getAttribute('data-x') == 1) {
         x2 = x + 2
         y2 = y
@@ -164,13 +164,13 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      x2 = x + 1
+      x2 = x + 1//Front Right
       y2 = y + 1
       if (isPiece(x2, y2, color, "bPawn", "right")) {
         selectable.push(selector(x2, y2))
       }
 
-      x2 = x + 1
+      x2 = x + 1//Front left
       y2 = y - 1
       if (isPiece(x2, y2, color, "bPawn", "left")) {
         selectable.push(selector(x2, y2))
@@ -178,12 +178,12 @@ function showTraj(source) { // Calculate and display traj
       break
 
     case 'wPawn':
-      x2 = x - 1
+      x2 = x - 1//Front
       y2 = y
       if (isPiece(x2, y2, color, "wPawn")) {
         selectable.push(selector(x2, y2))
       }
-
+      //Front + 2
       if (source.getAttribute('data-x') == 6) {
         x2 = x - 2
         y2 = y
@@ -192,13 +192,13 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      x2 = x - 1
+      x2 = x - 1//Front left
       y2 = y - 1
       if (isPiece(x2, y2, color, "wPawn", "left")) {
         selectable.push(selector(x2, y2))
       }
 
-      x2 = x - 1
+      x2 = x - 1//Front right
       y2 = y + 1
       if (isPiece(x2, y2, color, "wPawn", "right")) {
         selectable.push(selector(x2, y2))
@@ -206,8 +206,7 @@ function showTraj(source) { // Calculate and display traj
       break;
 
     case 'Rook':
-      for (let index = 1; index < 8; index++) {
-        //Back
+      for (let index = 1; index < 8; index++) {//Back
         x2 = x + index
         y2 = y
         if (isPiece(x2, y2, color)) {
@@ -217,8 +216,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Front
+      for (let index = 1; index < 8; index++) {//Front
         x2 = x - index
         y2 = y
         if (isPiece(x2, y2, color)) {
@@ -228,8 +226,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Left
+      for (let index = 1; index < 8; index++) {//Left
         x2 = x
         y2 = y - index
         if (isPiece(x2, y2, color)) {
@@ -239,8 +236,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Right
+      for (let index = 1; index < 8; index++) {//Right
         x2 = x
         y2 = y + index
         if (isPiece(x2, y2, color)) {
@@ -254,7 +250,6 @@ function showTraj(source) { // Calculate and display traj
 
     case 'Knight':
       //Front
-
       x2 = x - 2// Front left
       y2 = y - 1
       if (isPiece(x2, y2, color)) {
@@ -304,8 +299,7 @@ function showTraj(source) { // Calculate and display traj
       break;
 
     case 'Bishop':
-      for (let index = 1; index < 8; index++) {
-        //Bottom right
+      for (let index = 1; index < 8; index++) {//Bottom right
         x2 = x + index
         y2 = y + index
         if (isPiece(x2, y2, color)) {
@@ -315,8 +309,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Top right
+      for (let index = 1; index < 8; index++) {//Top right
         x2 = x - index
         y2 = y + index
         if (isPiece(x2, y2, color)) {
@@ -326,8 +319,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Top left
+      for (let index = 1; index < 8; index++) {//Top left
         x2 = x - index
         y2 = y - index
         if (isPiece(x2, y2, color)) {
@@ -337,8 +329,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Bottom left
+      for (let index = 1; index < 8; index++) {//Bottom left
         x2 = x + index
         y2 = y - index
         if (isPiece(x2, y2, color)) {
@@ -351,8 +342,7 @@ function showTraj(source) { // Calculate and display traj
 
     case 'Queen':
       //Rook path
-      for (let index = 1; index < 8; index++) {
-        //Back
+      for (let index = 1; index < 8; index++) {//Back
         x2 = x + index
         y2 = y
         if (isPiece(x2, y2, color)) {
@@ -362,8 +352,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Front
+      for (let index = 1; index < 8; index++) {//Front
         x2 = x - index
         y2 = y
         if (isPiece(x2, y2, color)) {
@@ -373,8 +362,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Left
+      for (let index = 1; index < 8; index++) {//Left
         x2 = x
         y2 = y - index
         if (isPiece(x2, y2, color)) {
@@ -384,8 +372,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Right
+      for (let index = 1; index < 8; index++) {//Right
         x2 = x
         y2 = y + index
         if (isPiece(x2, y2, color)) {
@@ -396,8 +383,7 @@ function showTraj(source) { // Calculate and display traj
       }
 
       //Bishop path
-      for (let index = 1; index < 8; index++) {
-        //Bottom right
+      for (let index = 1; index < 8; index++) {//Bottom right
         x2 = x + index
         y2 = y + index
         if (isPiece(x2, y2, color)) {
@@ -407,8 +393,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Top right
+      for (let index = 1; index < 8; index++) {//Top right
         x2 = x - index
         y2 = y + index
         if (isPiece(x2, y2, color)) {
@@ -418,8 +403,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Top left
+      for (let index = 1; index < 8; index++) {//Top left
         x2 = x - index
         y2 = y - index
         if (isPiece(x2, y2, color)) {
@@ -429,8 +413,7 @@ function showTraj(source) { // Calculate and display traj
         }
       }
 
-      for (let index = 1; index < 8; index++) {
-        //Bottom left
+      for (let index = 1; index < 8; index++) {//Bottom left
         x2 = x + index
         y2 = y - index
         if (isPiece(x2, y2, color)) {
@@ -523,38 +506,36 @@ function movePiece(source, dest) { // Move piece
 
 function isPiece(x, y, color, type, pos) {
   try {
-    if (type == "wPawn" || type == "bPawn") {
-      if (selector(x, y).hasChildNodes() == true) {
-        const piece = {}
-        piece.color = selector(x, y).getAttribute('data-color')
-        if (piece.color == color) {
-          return false
+    if (type == "wPawn" || type == "bPawn") {//Check if pawn
+      if (selector(x, y).hasChildNodes() == true) {//Check if piece on the tile
+        const neighbourColor = selector(x, y).getAttribute('data-color')//Get neighbour color
+        if (neighbourColor == color) {//Check difference of colors
+          return false//Not eatable
         } else if (pos == "left" || pos == "right") {
-          return true
+          return true//Eatable
         }
       }
       else if (pos == "left" || pos == "right") {
-        return false
+        return false//Not Eatable
       }
       else {
-        return true
+        return true//Clickable
       }
     }
     else {
-      if (selector(x, y).hasChildNodes() == true) {
-        const piece = {}
-        piece.color = selector(x, y).getAttribute('data-color')
-        if (piece.color == color) {
-          return false
+      if (selector(x, y).hasChildNodes() == true) {//Check if piece on the tile
+        const neighbourColor = selector(x, y).getAttribute('data-color')//Get neighbour color
+        if (neighbourColor == color) {//Check difference of colors
+          return false//Not Eatable
         } else {
-          return true
+          return true//Eatable
         }
       }
       else {
-        return true
+        return true//Clickable
       }
     }
   } catch (error) {
-    return false
+    return false//Not clickable
   }
 }
