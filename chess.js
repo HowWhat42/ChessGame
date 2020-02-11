@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+/* eslint-disable*/
 let oldElement
 let selectable = []
 let turn = 1// Set turn to white
@@ -114,22 +114,21 @@ function selectPiece(event) { // On piece select
     source = source.parentElement
   }
 
-  let color = source.getAttribute('data-color')
-  if (oldElement == undefined) {// Check if nothing is selected
-    if (turn == 1 && color == 'w') {// Check if white is clicked and turn is white
-      showPath(source)
+  const color = source.getAttribute('data-color')
+  if (oldElement == undefined) { // Check if nothing is selected
+    if (turn == 1 && color == 'w') { // Check if white is clicked and turn is white
+      showTraj(source)
       oldElement = source
     }
-    if (turn == 0 && color == 'b') {// Check if black is clicked and turn is black
-      showPath(source)
+    if (turn == 0 && color == 'b') { // Check if black is clicked and turn is black
+      showTraj(source)
       oldElement = source
     }
-  } else if (selectable.includes(source) == true) {// Move piece
+  } else if (selectable.includes(source) == true) { // Move piece
     movePiece(oldElement, source)
-    if (turn == 1) {// Change turn to black
+    if (turn == 1) { // Change turn to black
       turn = 0
-    }
-    else if (turn == 0) {// Change turn to white
+    } else if (turn == 0) { // Change turn to white
       turn = 1
     }
   } else {// Abort click
@@ -142,9 +141,9 @@ function selectPiece(event) { // On piece select
   }
 }
 
-function showPath(source) { // Calculate and display path
-  let x = parseInt(source.getAttribute('data-x'))
-  let y = parseInt(source.getAttribute('data-y'))
+function showTraj(source) { // Calculate and display traj
+  let x = source.getAttribute('data-x')
+  const y = source.getAttribute('data-y')
   const piece = source.getAttribute('data-piece')
   const color = source.getAttribute('data-color')
   let x2
@@ -176,7 +175,7 @@ function showPath(source) { // Calculate and display path
       if (isPiece(x2, y2, color, "bPawn", "left")) {
         selectable.push(selector(x2, y2))
       }
-      break;
+      break
 
     case 'wPawn':
       x2 = x - 1
@@ -493,7 +492,7 @@ function showPath(source) { // Calculate and display path
       break;
 
     default:
-      break;
+      break
   }
   selectable.forEach(element => {
     element.classList.add('selected')
@@ -507,14 +506,14 @@ function movePiece(source, dest) { // Move piece
   if (dest.hasChildNodes() == true) {
     dest.removeChild(dest.firstChild)
   }
-  //Get all the piece attributes
+  // Get all the piece attributes
   const img = source.firstChild
   const name = img.getAttribute('data-name')
   const color = source.getAttribute('data-color')
-  //Delete the piece
+  // Delete the piece
   source.removeChild(source.firstChild)
   source.removeAttribute('data-piece')
-  //Display the piece at it's new pos
+  // Display the piece at it's new pos
   dest.appendChild(img)
   dest.setAttribute('data-piece', name)
   dest.setAttribute('data-color', color)
