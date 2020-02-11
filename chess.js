@@ -30,7 +30,7 @@ function drawBoard() { // Draw board on the webpage
   document.body.appendChild(table)
 }
 
-function selector(x, y) {//EL SAINT GRAAL
+function selector(x, y) {
   const select = document.querySelectorAll('td[data-x="' + x + '"]')
   let find = false
   let yInSel
@@ -46,7 +46,7 @@ function selector(x, y) {//EL SAINT GRAAL
   const id = select[i].getAttribute('id')
   const element = document.getElementById(id)
   return element
-}//ET TEHC
+}
 
 function prepareBoard() { // Add pieces on the board
   for (let i = 0; i < blackPattern.length; i++) {
@@ -110,8 +110,6 @@ function addListener() { // Add listener to react on click
 
 function selectPiece(event) { // On piece select
   let source = event.target || event.srcElement
-  console.log(source)
-  console.log(source.tagName)
   if (source.tagName !== 'TD') {// Check if piece is clicked
     source = source.parentElement
   }
@@ -134,7 +132,6 @@ function selectPiece(event) { // On piece select
     else if (turn == 0) {// Change turn to white
       turn = 1
     }
-    console.log('clicked twice')
   } else {// Abort click
     oldElement.classList.remove('selected')
     selectable.forEach(element => {
@@ -142,7 +139,6 @@ function selectPiece(event) { // On piece select
     })
     selectable = []
     oldElement = undefined
-    console.log('aborted click')
   }
 }
 
@@ -151,41 +147,33 @@ function showPath(source) { // Calculate and display path
   let y = parseInt(source.getAttribute('data-y'))
   const piece = source.getAttribute('data-piece')
   const color = source.getAttribute('data-color')
-  console.log('x : ' + x + ' y : ' + y)
-  console.log(source.childNodes)
-  let eatable = []
   let x2
   let y2
   switch (piece) {
     case 'bPawn':
       x2 = x + 1
       y2 = y
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color, "bPawn")) {
         selectable.push(selector(x2, y2))
       }
 
       if (source.getAttribute('data-x') == 1) {
         x2 = x + 2
         y2 = y
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color, "bPawn")) {
           selectable.push(selector(x2, y2))
         }
       }
 
-      eatable = neighbours(x, y, color)
-      if (findKey(eatable, 6) == true) {
-        x2 = x
-        y2 = y
-        x2++
-        y2--
+      x2 = x + 1
+      y2 = y + 1
+      if (isPiece(x2, y2, color, "bPawn", "right")) {
         selectable.push(selector(x2, y2))
       }
 
-      if (findKey(eatable, 8) == true) {
-        x2 = x
-        y2 = y
-        x2++
-        y2++
+      x2 = x + 1
+      y2 = y - 1
+      if (isPiece(x2, y2, color, "bPawn", "left")) {
         selectable.push(selector(x2, y2))
       }
       break;
@@ -193,32 +181,27 @@ function showPath(source) { // Calculate and display path
     case 'wPawn':
       x2 = x - 1
       y2 = y
-      if (isPiece(x2, y2, color)) {
+      if (isPiece(x2, y2, color, "wPawn")) {
         selectable.push(selector(x2, y2))
       }
 
       if (source.getAttribute('data-x') == 6) {
         x2 = x - 2
         y2 = y
-        if (isPiece(x2, y2, color)) {
+        if (isPiece(x2, y2, color, "wPawn")) {
           selectable.push(selector(x2, y2))
         }
       }
 
-      eatable = neighbours(x, y, color)
-      if (findKey(eatable, 1) == true) {
-        x2 = x
-        y2 = y
-        x2--
-        y2--
+      x2 = x - 1
+      y2 = y - 1
+      if (isPiece(x2, y2, color, "wPawn", "left")) {
         selectable.push(selector(x2, y2))
       }
 
-      if (findKey(eatable, 3) == true) {
-        x2 = x
-        y2 = y
-        x2--
-        y2++
+      x2 = x - 1
+      y2 = y + 1
+      if (isPiece(x2, y2, color, "wPawn", "right")) {
         selectable.push(selector(x2, y2))
       }
       break;
@@ -230,6 +213,8 @@ function showPath(source) { // Calculate and display path
         y2 = y
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -239,6 +224,8 @@ function showPath(source) { // Calculate and display path
         y2 = y
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -248,6 +235,8 @@ function showPath(source) { // Calculate and display path
         y2 = y - index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -257,6 +246,8 @@ function showPath(source) { // Calculate and display path
         y2 = y + index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
       break;
@@ -320,6 +311,8 @@ function showPath(source) { // Calculate and display path
         y2 = y + index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -329,6 +322,8 @@ function showPath(source) { // Calculate and display path
         y2 = y + index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -338,6 +333,8 @@ function showPath(source) { // Calculate and display path
         y2 = y - index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -347,6 +344,8 @@ function showPath(source) { // Calculate and display path
         y2 = y - index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
       break;
@@ -359,6 +358,8 @@ function showPath(source) { // Calculate and display path
         y2 = y
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -368,6 +369,8 @@ function showPath(source) { // Calculate and display path
         y2 = y
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -377,6 +380,8 @@ function showPath(source) { // Calculate and display path
         y2 = y - index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -386,6 +391,8 @@ function showPath(source) { // Calculate and display path
         y2 = y + index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -396,6 +403,8 @@ function showPath(source) { // Calculate and display path
         y2 = y + index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -405,6 +414,8 @@ function showPath(source) { // Calculate and display path
         y2 = y + index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -414,6 +425,8 @@ function showPath(source) { // Calculate and display path
         y2 = y - index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
 
@@ -423,6 +436,8 @@ function showPath(source) { // Calculate and display path
         y2 = y - index
         if (isPiece(x2, y2, color)) {
           selectable.push(selector(x2, y2))
+        } else {
+          break
         }
       }
       break;
@@ -486,11 +501,9 @@ function showPath(source) { // Calculate and display path
 }
 
 function movePiece(source, dest) { // Move piece
-  console.log('item has to be moved from : ' + source + ' to : ' + dest)
   selectable.forEach(element => {
     element.classList.remove('selected')
   })
-  console.log(source.childNodes)
   if (dest.hasChildNodes() == true) {
     dest.removeChild(dest.firstChild)
   }
@@ -509,111 +522,40 @@ function movePiece(source, dest) { // Move piece
   oldElement = undefined
 }
 
-function neighbours(x, y, color) { // Detect collisions
-  /*
-    -x-y | -x | -x+y    1|2|3
-    -y   | xy | +y      4| |5
-    +x-y | +x | +x+y    6|7|8
-    */
-  const piece = selector(x, y).getAttribute('data-piece')
-  const collisions = []
-
-  if (piece == 'bPawn') {
-    x++
-    y++
-
-    try {// Get the piece on the right
-      if (selector(x, y).hasChildNodes() == true) {
-        const obj = {}
-        obj.collision = 8
-        obj.color = selector(x, y).getAttribute('data-color')
-        if (obj.color != color) {
-          collisions.push(obj)
-        }
-      } // +x+y
-    } catch (error) {
-      console.error(error)
-    }
-
-    y -= 2
-
-    try {// Get the piece on the left
-      if (selector(x, y).hasChildNodes() == true) {
-        const obj = {}
-        obj.collision = 6
-        obj.color = selector(x, y).getAttribute('data-color')
-        if (obj.color != color) {
-          collisions.push(obj)
-        }
-      } // +x-y
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  if (piece == 'wPawn') {
-    x--
-    y--
-
-    try {// Get the piece on the left
-      if (selector(x, y).hasChildNodes() == true) {
-        const obj = {}
-        obj.collision = 1
-        obj.color = selector(x, y).getAttribute('data-color')
-        if (obj.color != color) {
-          collisions.push(obj)
-        }
-      } // +x+y
-    } catch (error) {
-      console.error(error)
-    }
-
-    y++
-    try {// Get the piece on the middle
-      if (selector(x, y).hasChildNodes() == true) {
-        const obj = {}
-        obj.collision = 2
-        obj.color = selector(x, y).getAttribute('data-color')
-        if (obj.color != color) {
-          collisions.push(obj)
-        }
-      } // +x
-    } catch (error) {
-      console.error(error)
-    }
-
-    y++
-
-    try {// Get the piece on the right
-      if (selector(x, y).hasChildNodes() == true) {
-        const obj = {}
-        obj.collision = 3
-        obj.color = selector(x, y).getAttribute('data-color')
-        if (obj.color != color) {
-          collisions.push(obj)
-        }
-      } // +x-y
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  return collisions
-}
-
-function isPiece(x, y, color) {
+function isPiece(x, y, color, type, pos) {
   try {
-    if (selector(x, y).hasChildNodes() == true) {
-      const piece = {}
-      piece.color = selector(x, y).getAttribute('data-color')
-      if (piece.color == color) {
+    if (type == "wPawn" || type == "bPawn") {
+      if (selector(x, y).hasChildNodes() == true) {
+        const piece = {}
+        piece.color = selector(x, y).getAttribute('data-color')
+        if (piece.color == color) {
+          return false
+        } else if (pos == "left" || pos == "right") {
+          return true
+        }
+      }
+      else if (pos == "left" || pos == "right") {
         return false
-      } else {
+      }
+      else {
         return true
       }
     }
     else {
-      return true
+      if (selector(x, y).hasChildNodes() == true) {
+        const piece = {}
+        piece.color = selector(x, y).getAttribute('data-color')
+        if (piece.color == color) {
+          return false
+        } else {
+          return true
+        }
+      }
+      else {
+        return true
+      }
     }
   } catch (error) {
-    console.error(error)
+    return false
   }
 }
