@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 
-function highScore(name, score) { // couocu
+function highScore(score) {
+  const name = document.querySelector('#username').value;
   fetch('http://localhost:8080', {
     method: 'POST',
     headers: {
@@ -14,15 +15,21 @@ function highScore(name, score) { // couocu
   })
       .then((res) => res.json())
       .then((res) => {
-        console.log(JSON.parse(res.scoreTable));
-        $('body').html = '<table id="score"></table>';
-        res.scoreTable.forEach((element) => {
-          let row = 
-          $('#score').html += 
-        });
-      });
-}
+        scoreTable = JSON.parse(res.scoreTable);
+        console.log(scoreTable);
+        console.log();
+        const table = document.createElement('table');
+        scoreTable.forEach((element) => {
+          const tr = document.createElement('tr');
 
-function $(query) {
-  document.querySelector(query);
+          for (const [key, value] of Object.entries(element)) {
+            const td = document.createElement('td');
+            td.innerHTML = value;
+            tr.appendChild(td);
+          }
+          table.appendChild(tr);
+        });
+        document.body.innerHTML = '';
+        document.body.appendChild(table);
+      });
 }

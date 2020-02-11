@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+/* eslint-disable*/
 let oldElement
 let selectable = []
 let turn = 1// Set turn to white
