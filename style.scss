@@ -65,5 +65,43 @@ body{
             box-shadow: inset 0px 0px 20px 0px rgba(0,0,0,0.75);
         }
     }
+    #scoreDisplay{
+        width: 50vw;
+        height: 10vh;
+        position: absolute;
+        border-radius: 5px;
+        top: 15%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+        background: white;
+        display: inline-flex;
+        justify-content: space-around;
+        button{
+            background: linear-gradient(45deg, rgba(233,127,163,1) 0%, rgba(139,16,176,1) 49%, rgba(0,212,255,1) 100%);
+            border-radius: 5px;
+            border-style: none;
+            height: 4vh;
+            font-size: large;
+            color: white;
+            margin-top: 3vh;
+            box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.70);
+        }
+        h1{
+            margin-top: 3vh;
+            font-size: 4vh;
+        }
+        input{
+            margin-top: 3vh;
+            height: 4vh;
+            border-radius: 5px;
+            border-style: none;
+            box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.20);
+        }
+    }
+    ::-webkit-input-placeholder {
+        text-align: center;
+     }
 }
 

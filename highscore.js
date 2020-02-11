@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 // eslint-disable-next-line no-var
-var finalScore;
+var finalScore = 0;
 
 function sendHighScore() {
   const name = document.querySelector('#userName').value;
@@ -33,8 +33,10 @@ function getHighScore() {
         nameInput.setAttribute('id', 'userName');
         nameInput.setAttribute('minlength', '1');
         nameInput.setAttribute('placeholder', 'Enter you name');
+        nameInput.setAttribute('align', 'middle');
         const button = document.createElement('button');
         button.setAttribute('onclick', 'sendHighScore()');
+        button.innerText = 'Envoyer';
         scoreDisplay.appendChild(scoreP);
         scoreDisplay.appendChild(nameInput);
         scoreDisplay.appendChild(button);
@@ -45,7 +47,7 @@ function getHighScore() {
           const tr = document.createElement('tr');
           for (const [key, value] of Object.entries(element)) {
             const td = document.createElement('td');
-            td.innerHTML = value;
+            td.innerText = value;
             tr.appendChild(td);
           }
           table.appendChild(tr);
