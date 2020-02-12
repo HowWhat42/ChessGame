@@ -32,7 +32,7 @@ function getHighScore() {
         const nameInput = document.createElement('input');
         nameInput.setAttribute('id', 'userName');
         nameInput.setAttribute('minlength', '1');
-        nameInput.setAttribute('placeholder', 'Enter you name');
+        nameInput.setAttribute('placeholder', 'Entrez votre nom');
         nameInput.setAttribute('align', 'middle');
         const button = document.createElement('button');
         button.setAttribute('onclick', 'sendHighScore()');
@@ -42,6 +42,8 @@ function getHighScore() {
         scoreDisplay.appendChild(button);
         const table = document.createElement('table');
         table.setAttribute('id', 'scoreTable');
+        table.classList.add('center');
+        scoreDisplay.classList.add('center');
         createHeader(table);
         scoreTable.forEach((element) => {
           const tr = document.createElement('tr');
@@ -62,7 +64,7 @@ function createHeader(node) {
   const tr = document.createElement('tr');
   const td1 = document.createElement('td');
   const td2 = document.createElement('td');
-  td1.innerText = 'Name';
+  td1.innerText = 'Nom';
   td2.innerText = 'Score';
   tr.appendChild(td1);
   tr.appendChild(td2);

@@ -11,19 +11,17 @@
 </head>
 
 <body>
+  <div id="home" class="center">
+    <h1>Bienvenue sur ChessGame</h1>
+    <p>Ce jeu a été créé dans le cadre d'un projet d'études, il peut contenir des bugs que vous pouvez signaler <a
+        href="https://github.com/Alienovore/ChessGame/issues">ici !</a></p>
+    <button onclick="play()">Jouer</button>
+  </div>
   <script src="./scripts/highscore.js"></script>
   <script src="./scripts/chess.js"></script>
   <script src="./scripts/patterns.js"></script>
   <script src="./scripts/path.js"></script>
   <script src="./scripts/checkattack.js"></script>
-  <script>
-    play()
-    function play() {
-      drawBoard();
-      prepareBoard();
-      addListener();
-    }
-  </script>
 </body>
 
 </html>

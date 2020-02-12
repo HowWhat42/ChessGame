@@ -1,11 +1,23 @@
-/* eslint-disable */
+/* eslint-disable require-jsdoc */
 let oldElement;
 let selectable = [];
 let turn = 1;// Set turn to white
 
+function play() {
+  document.body.innerHTML = '';
+  drawBoard();
+  prepareBoard();
+  addListener();
+}
+
 function drawBoard() { // Draw board on the webpage
   let id = 0;
   const table = document.createElement('table');
+  const btn = document.createElement('button');
+  btn.setAttribute('onclick', 'gameOver()');
+  btn.innerText = 'Fin de partie';
+  btn.setAttribute('id', 'endgame');
+  btn.classList.add('center');
   table.setAttribute('id', 'chessBoard');
   for (let i = 0; i < 8; i++) {
     const tr = document.createElement('tr');
@@ -28,7 +40,10 @@ function drawBoard() { // Draw board on the webpage
     }
     table.appendChild(tr);
   }
+  table.classList.add('center');
   document.body.appendChild(table);
+  document.body.appendChild(btn);
+  tips(true);
 }
 
 function selector(x, y) {
@@ -204,5 +219,42 @@ function isPiece(x, y, color, type, pos) {
     }
   } catch (error) {
     return false;// Not clickable
+  }
+}
+
+
+function gameOver() { // Show the gameover popup
+  const popup = document.createElement('div');
+  popup.classList.add('center');
+  popup.setAttribute('id', 'gameOver');
+  const text = document.createElement('h1');
+  text.innerText = 'Vous avez perdu !';
+  const btn = document.createElement('button');
+  btn.setAttribute('onclick', 'getHighScore()');
+  btn.innerText = 'Afficher les scores';
+  popup.appendChild(text);
+  popup.appendChild(btn);
+  document.body.appendChild(popup);
+}
+
+function tips(state) { // toggle tips popup
+  if (state) {
+    const popup = document.createElement('div');
+    popup.classList.add('center');
+    popup.setAttribute('id', 'tips');
+    const title = document.createElement('h1');
+    title.innerText = 'Comment jouer ?';
+    const text = document.createElement('p');
+    text.innerText = 'Pour jouer cliquez sur une pièce, les cases accessibles sont mises en évidence. Le jeu commence par les blancs. Comme le jeu n\'est pas terminé, utilisez sur le bouton "Fin de partie" pour afficher les scores';
+    const btn = document.createElement('button');
+    btn.setAttribute('onclick', 'tips(false)');
+    btn.innerText = 'Fermer';
+    popup.appendChild(title);
+    popup.appendChild(text);
+    popup.appendChild(btn);
+    document.body.appendChild(popup);
+  } else {
+    popup = document.getElementById('tips');
+    document.body.removeChild(popup);
   }
 }
