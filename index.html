@@ -1,56 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <style>
-      table {
-        border: 1px solid black;
-        margin: auto;
-      }
 
-      .b,
-      .w,
-      .g {
-        padding: 0%;
-        margin: -1px;
-        height: 50px;
-        width: 50px;
-        float: left;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>ChessGame</title>
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
 
-      .b {
-        background-color: grey;
-      }
+<body>
+  <div id="home" class="center">
+    <h1>Bienvenue sur ChessGame</h1>
+    <p>Ce jeu a été créé dans le cadre d'un projet d'études, il peut contenir des bugs que vous pouvez signaler <a
+        href="https://github.com/Alienovore/ChessGame/issues">ici !</a></p>
+    <button onclick="play()">Jouer</button>
+  </div>
+  <script src="./scripts/highscore.js"></script>
+  <script src="./scripts/chess.js"></script>
+  <script src="./scripts/patterns.js"></script>
+  <script src="./scripts/path.js"></script>
+  <script src="./scripts/checkattack.js"></script>
+</body>
 
-      .w {
-        background-color: white;
-      }
-
-      .g {
-        background-color: grey;
-      }
-
-      img {
-        height: 48px;
-      }
-
-      .selected {
-        background-color: darkgray;
-      }
-    </style>
-  </head>
-
-  <body>
-    <script src="tools.js"></script>
-    <script src="chess.js"></script>
-    <script src="patterns.js"></script>
-    <script>
-      drawBoard();
-      prepareBoard();
-      addListener();
-    </script>
-  </body>
 </html>

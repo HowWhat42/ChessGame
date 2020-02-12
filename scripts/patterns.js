@@ -1,3 +1,4 @@
+/* eslint-disable */
 const blackPattern = [
     {
         "path": "img/B_rook.png",
@@ -15,14 +16,14 @@ const blackPattern = [
         "name": "bBishop"
     },
     {
-        "path": "img/B_queen.png",
+        "path": "img/B_king.png",
         "y": "3",
-        "name": "bQueen"
+        "name": "bKing"
     },
     {
-        "path": "img/B_king.png",
+        "path": "img/B_queen.png",
         "y": "4",
-        "name": "bKing"
+        "name": "bQueen"
     },
     {
         "path": "img/B_bishop.png",
@@ -45,7 +46,6 @@ const whitePattern = [
         "path": "img/W_rook.png",
         "y": "0",
         "name": "wRook"
-
     },
     {
         "path": "img/W_knight.png",
@@ -58,14 +58,14 @@ const whitePattern = [
         "name": "wBishop"
     },
     {
-        "path": "img/W_queen.png",
+        "path": "img/W_king.png",
         "y": "3",
-        "name": "wQueen"
+        "name": "wKing"
     },
     {
-        "path": "img/W_king.png",
+        "path": "img/W_queen.png",
         "y": "4",
-        "name": "wKing"
+        "name": "wQueen"
     },
     {
         "path": "img/W_bishop.png",

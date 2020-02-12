@@ -1,0 +1,137 @@
+$blackColor : #ffffff00;
+$whiteColor :   #ffffff;
+
+body{
+    font-family: 'Varela Round', sans-serif;
+    background: linear-gradient(225deg, rgba(233,127,163,1) 0%, rgba(139,16,176,1) 49%, rgba(0,212,255,1) 100%);
+    color: black;
+    height: 100vh;
+    overflow: hidden;
+    *{
+        border-radius: 5px;
+    }
+    button{
+        background: linear-gradient(45deg, rgba(233,127,163,1) 0%, rgba(139,16,176,1) 49%, rgba(0,212,255,1) 100%);
+        border-style: none;
+        height: 4vh;
+        font-size: large;
+        color: white;
+        margin-top: 3vh;
+        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.70);
+        &:hover {
+            background: blue;
+          }  
+    }
+    div{
+        text-align: center;
+    }
+    .center{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    #scoreTable{
+        background: linear-gradient(45deg, rgba(233,127,163,1) 0%, rgba(139,16,176,1) 49%, rgba(0,212,255,1) 100%);
+        width: 50vw;
+        
+        margin: auto;
+        border-spacing: 5px;
+        background-color: $blackColor;
+        margin: 0;
+        box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+        td{
+            width: 50%;
+            padding: 0px;
+            text-align: center;
+            padding: 10px;
+            background-color: $whiteColor;
+        }
+    }
+    #chessBoard{
+        background: linear-gradient(45deg, rgba(233,127,163,1) 0%, rgba(139,16,176,1) 49%, rgba(0,212,255,1) 100%);
+        border-spacing: 0px;
+        box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+        td{
+            height: 10vh;
+            width: 10vh;
+            padding: 0%;
+            margin: -1px;         
+        }
+        img {
+            height: 8vh;
+            margin-top: 0,8vh;
+            margin-left: 10%;
+          }
+        .b{
+            background-color: $blackColor;
+        }
+        .w{
+            background-color: $whiteColor;
+        }
+        .b.selected {
+            box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+        }
+        .w.selected{ 
+            box-shadow: inset 0px 0px 20px 0px rgba(0,0,0,0.75);
+        }
+    }
+    #scoreDisplay{
+        width: 50vw;
+        height: 10vh;
+        position: absolute;
+        top: 10vh;
+        left: 50%;
+        box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+        background: white;
+        display: inline-flex;
+        justify-content: space-around;
+        // button{
+        //     background: linear-gradient(45deg, rgba(233,127,163,1) 0%, rgba(139,16,176,1) 49%, rgba(0,212,255,1) 100%);
+        //     border-style: none;
+        //     height: 4vh;
+        //     font-size: large;
+        //     color: white;
+        //     margin-top: 3vh;
+        //     box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.70);
+        // }
+        h1{
+            margin-top: 3vh;
+            font-size: 4vh;
+        }
+        input{
+            margin-top: 3vh;
+            height: 4vh;
+            border-style: none;
+            box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.20);
+        }
+    }
+    #home{
+        background-color:#ffffffd3;
+        width: 50vw;
+        padding: 5vh;
+        box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+        button{
+            height: 5vh;
+            width: 10vh;
+        }
+    }
+    #endgame{
+        top: 92vh;
+    }
+    #gameOver, #tips{
+        background-color: #fffffffa;
+        padding: 5vh;
+        box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+        h1{
+            margin: 0;
+        }
+    }
+    ::-webkit-input-placeholder {
+        text-align: center;
+     }
+    //  .checkmate {
+    //   }
+}
+

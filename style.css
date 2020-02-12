@@ -1,0 +1,123 @@
+body {
+  font-family: "Varela Round", sans-serif;
+  background: linear-gradient(225deg, #e97fa3 0%, #8b10b0 49%, #00d4ff 100%);
+  color: black;
+  height: 100vh;
+  overflow: hidden;
+}
+body * {
+  border-radius: 5px;
+}
+body button {
+  background: linear-gradient(45deg, #e97fa3 0%, #8b10b0 49%, #00d4ff 100%);
+  border-style: none;
+  height: 4vh;
+  font-size: large;
+  color: white;
+  margin-top: 3vh;
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.7);
+}
+body button:hover {
+  background: blue;
+}
+body div {
+  text-align: center;
+}
+body .center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+body #scoreTable {
+  background: linear-gradient(45deg, #e97fa3 0%, #8b10b0 49%, #00d4ff 100%);
+  width: 50vw;
+  margin: auto;
+  border-spacing: 5px;
+  background-color: #ffffff00;
+  margin: 0;
+  box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+}
+body #scoreTable td {
+  width: 50%;
+  padding: 0px;
+  text-align: center;
+  padding: 10px;
+  background-color: #ffffff;
+}
+body #chessBoard {
+  background: linear-gradient(45deg, #e97fa3 0%, #8b10b0 49%, #00d4ff 100%);
+  border-spacing: 0px;
+  box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+}
+body #chessBoard td {
+  height: 10vh;
+  width: 10vh;
+  padding: 0%;
+  margin: -1px;
+}
+body #chessBoard img {
+  height: 8vh;
+  margin-top: 0, 8vh;
+  margin-left: 10%;
+}
+body #chessBoard .b {
+  background-color: #ffffff00;
+}
+body #chessBoard .w {
+  background-color: #ffffff;
+}
+body #chessBoard .b.selected {
+  box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+}
+body #chessBoard .w.selected {
+  box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+}
+body #scoreDisplay {
+  width: 50vw;
+  height: 10vh;
+  position: absolute;
+  top: 10vh;
+  left: 50%;
+  box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+  background: white;
+  display: inline-flex;
+  justify-content: space-around;
+}
+body #scoreDisplay h1 {
+  margin-top: 3vh;
+  font-size: 4vh;
+}
+body #scoreDisplay input {
+  margin-top: 3vh;
+  height: 4vh;
+  border-style: none;
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+body #home {
+  background-color: #ffffffd3;
+  width: 50vw;
+  padding: 5vh;
+  box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+}
+body #home button {
+  height: 5vh;
+  width: 10vh;
+}
+body #endgame {
+  top: 92vh;
+}
+body #gameOver, body #tips {
+  background-color: #fffffffa;
+  padding: 5vh;
+  box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+}
+body #gameOver h1, body #tips h1 {
+  margin: 0;
+}
+body ::-webkit-input-placeholder {
+  text-align: center;
+}
+
+/*# sourceMappingURL=style.css.map */
