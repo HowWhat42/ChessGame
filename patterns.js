@@ -1,3 +1,4 @@
+/* eslint-disable */
 const blackPattern = [
     {
         "path": "img/B_rook.png",
