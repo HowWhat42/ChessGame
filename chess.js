@@ -1,7 +1,10 @@
 /* eslint-disable*/
 let oldElement
 let selectable = []
-let turn = 1// Set turn to white
+var turn = 1// Set turn to white
+var multiplayer = false
+var moveSource
+var moveDest
 
 function drawBoard() { // Draw board on the webpage
   let id = 0
@@ -542,6 +545,11 @@ function showPath(source, piece) { // Calculate and display traj
 }
 
 function movePiece(source, dest) { // Move piece
+  if (multiplayer === true) {
+    moveSource = source;
+    moveDest = dest;
+    sendMove();
+  }
   selectable.forEach(element => {
     element.classList.remove('selected')
   })

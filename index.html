@@ -19,11 +19,35 @@
   <script>
     var socket = io.connect('http://localhost:8080');
 
-    socket.emit('move', { "x1": x1, "y1": y1, "x2": x2, "y2": y2 });
+
+    function sendMove() {
+      let x1 = moveSource.getAttribute('data-x')
+      let y1 = moveSource.getAttribute('data-y')
+      let x2 = moveDest.getAttribute('data-x')
+      let y2 = moveDest.getAttribute('data-y')
+      socket.emit('move', { "x1": x1, "y1": y1, "x2": x2, "y2": y2 });
+    }
+
+    socket.emit('init')
+
+    socket.on('init', function (initValue) {
+      turn = initValue;
+      multiplayer = true;
+    })
 
     socket.on('move', function (move) {
-
+      if (turn == 1) {
+        turn = 0;
+      } else {
+        turn = 1;
+      }
+      console.log(move);
+      moveSource = selector(parseInt(move.x1), parseInt(move.y1))
+      console.log(moveSource)
+      moveDest = selector(parseInt(move.x2), parseInt(move.y2))
+      movePiece(moveSource, moveDest)
     })
+
   </script>
   <script>
     play()
