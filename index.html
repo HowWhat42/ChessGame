@@ -8,6 +8,11 @@
   <title>Document</title>
   <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .checkmate {
+      background-color: rgb(255, 0, 0) !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -16,6 +21,8 @@
   <script src="./patterns.js"></script>
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="./path.js"></script>
+  <script src="./checkattack.js"></script>
   <script>
     var socket = io.connect('http://localhost:8080');
 
