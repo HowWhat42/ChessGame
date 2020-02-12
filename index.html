@@ -5,24 +5,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Document</title>
+  <title>ChessGame</title>
   <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .checkmate {
-      background-color: rgb(255, 0, 0) !important;
-    }
-  </style>
 </head>
 
 <body>
-  <script src="./highscore.js"></script>
-  <script src="./chess.js"></script>
-  <script src="./patterns.js"></script>
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="./path.js"></script>
-  <script src="./checkattack.js"></script>
+  <script src="socket.io.js"></script>
+  <script src="./scripts/highscore.js"></script>
+  <script src="./scripts/chess.js"></script>
+  <script src="./scripts/patterns.js"></script>
+  <script src="./scripts/path.js"></script>
+  <script src="./scripts/checkattack.js"></script>
   <script>
     var socket = io.connect('http://localhost:8080');
 
